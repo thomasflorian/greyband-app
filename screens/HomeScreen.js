@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import Toolbar from '../components/Toolbar';
 import { useFonts, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
 
     let [fontsLoaded] = useFonts({
         Montserrat_500Medium,
@@ -11,14 +13,15 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-          <Text style={styles.blowtitle}>Sup</Text>
+          <Text style={styles.blowtitle}>Last Recorded Blow</Text>
           <View style={styles.blowbox}>
               <Text style={styles.blowtext}>.00%</Text>
           </View>
+          <Toolbar navigation={navigation} />
         </View>
-      );
+    );
 }
-
+const Stack = createNativeStackNavigator();
 
 const styles = StyleSheet.create({
     container: {
@@ -35,12 +38,12 @@ const styles = StyleSheet.create({
         color: "#D64F27"
     },
     blowbox: {
-        paddingHorizontal: "75px",
-        paddingVertical: "30px",
-        margin: "30px",
+        paddingHorizontal: 75,
+        paddingVertical: 30,
+        margin: 30,
         borderColor: "#D64F27",
-        borderWidth: "1px",
-        borderRadius: "15px",
+        borderWidth: 1,
+        borderRadius: 15,
         boxShadow: "0px 4px 10px #D64F27"
     },
     blowtext: {

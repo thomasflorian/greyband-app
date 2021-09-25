@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { useFonts, Montserrat_400Regular } from '@expo-google-fonts/montserrat';
 import { Icon } from 'react-native-elements'
 
 
-export default function Toolbar() {
+export default function Toolbar({navigation}) {
 
     let [fontsLoaded] = useFonts({
         Montserrat_400Regular,
@@ -12,22 +12,27 @@ export default function Toolbar() {
 
     return (
         <View style={styles.container}>
-            <Icon
-                name='home'
-                color='#D64F27'
-                size={30}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                <Icon
+                    name='home'
+                    color='#D64F27'
+                    size={30}
+                />
+            </TouchableOpacity>
+        
             <Icon
                 name='party-popper'
                 type='material-community'
                 color='#D64F27'
                 size={30}
             />
-            <Icon
-                name='search'
-                color='#D64F27'
-                size={30}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate("Friends")}>
+                <Icon
+                    name='search'
+                    color='#D64F27'
+                    size={30}
+                />
+            </TouchableOpacity>
             <Icon
                 name='user'
                 type="antdesign"
