@@ -1,12 +1,11 @@
 // Import Dependencies 
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useFonts, Montserrat_500Medium, Montserrat_400Regular } from '@expo-google-fonts/montserrat';
 import { Icon } from 'react-native-elements'
 
 // Import Components
 import Toolbar from '../components/Toolbar';
-import { FlatList } from 'react-native';
 
 
 export default function SearchScreen({ navigation }) {

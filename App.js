@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Menubar from './components/Menubar'
 import HomeScreen from './screens/HomeScreen'
-import FriendScreen from './screens/SearchScreen';
+import SearchScreen from './screens/SearchScreen';
 import PartyScreen from './screens/PartyScreen'
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
           <NavigationContainer initialRouteName="Party">
             <Stack.Navigator>
               <Stack.Screen name="Home" component={HomeScreen} options={{header: () => <Menubar />}}/>
-              <Stack.Screen name="Friends" component={FriendScreen} options={{header: () => <Menubar />}}/>
+              <Stack.Screen name="Friends" component={SearchScreen} options={{header: () => <Menubar />}}/>
               <Stack.Screen name="Party" component={PartyScreen} options={{header: () => <Menubar />}}/>
             </Stack.Navigator>
           </NavigationContainer>
