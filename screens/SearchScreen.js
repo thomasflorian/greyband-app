@@ -17,12 +17,12 @@ export default function SearchScreen({ navigation }) {
     // State to track users list
     // TODO: Obtain user list from database.
     const [users, setUsers] = useState([
-        { username: "Mulcy", name: "Jack M", picture: "https://media-exp1.licdn.com/dms/image/C4D03AQGqkhwJ7lOgaw/profile-displayphoto-shrink_400_400/0/1627943347422?e=1637798400&v=beta&t=B_Pyxda4EmQptoamr55wpSWr7QSxZz7qUrI_oPjbdBg", favorite: false, key: 0 },
-        { username: "Mayarox5", name: "Maya A", picture: "https://media-exp1.licdn.com/dms/image/D5635AQHNBHwnvHPtDw/profile-framedphoto-shrink_400_400/0/1632152430403?e=1632693600&v=beta&t=i12F9pdWyeAZfhddNFITWOT38n1Y_EWlOfEdU9ehUsQ", favorite: false, key: 1 },
-        { username: "Specticole", name: "Cole S", picture: "https://media-exp1.licdn.com/dms/image/C4D03AQFIfOQDa8Qm9g/profile-displayphoto-shrink_400_400/0/1537903746651?e=1637798400&v=beta&t=C3YfJZqTgGh7RzgZC1U0S64GepYcWr8OzOE0bURj7Kw", favorite: false, key: 2 },
-        { username: "Rohet_Chitikela", name: "Rohet C", picture: "https://media-exp1.licdn.com/dms/image/C5603AQERqQbJGA8S7Q/profile-displayphoto-shrink_400_400/0/1600286036644?e=1637798400&v=beta&t=SBXfZiJAzXP7A9PSIDJDFdlfPMTuXJtU2XphXe3d_Q0", favorite: false, key: 3 },
-        { username: "Suj2001", name: "Sujay V", picture: "https://media-exp1.licdn.com/dms/image/C4D03AQEVehgIRmBoAA/profile-displayphoto-shrink_400_400/0/1587057007307?e=1637798400&v=beta&t=M2-x-sZbm1s8TigO-3IROiis8ErdfaqrVyY7gQmqTrg", favorite: false, key: 4 },
-        { username: "cadespector", name: "Cade S", picture: "https://media-exp1.licdn.com/dms/image/C4E03AQE7QpbWEbK02g/profile-displayphoto-shrink_400_400/0/1623100188390?e=1637798400&v=beta&t=WQL1HsOPTDXsAuVo4KVP1-GyN_f2QnOEEoDwtdDQvbA", favorite: false, key: 5 },
+        { username: "Mulcy", name: "Jack M", picture: "https://media-exp1.licdn.com/dms/image/C4D03AQGqkhwJ7lOgaw/profile-displayphoto-shrink_400_400/0/1627943347422?e=1637798400&v=beta&t=B_Pyxda4EmQptoamr55wpSWr7QSxZz7qUrI_oPjbdBg", favorite: false, key: '0' },
+        { username: "Mayarox5", name: "Maya A", picture: "https://media-exp1.licdn.com/dms/image/D5635AQHNBHwnvHPtDw/profile-framedphoto-shrink_400_400/0/1632152430403?e=1633374000&v=beta&t=bdk_9ObWUNNDFgCIKNtrquz5P_wkvDHqIbyMz4zJHRs", favorite: false, key: '1' },
+        { username: "Specticole", name: "Cole S", picture: "https://media-exp1.licdn.com/dms/image/C4D03AQFIfOQDa8Qm9g/profile-displayphoto-shrink_400_400/0/1537903746651?e=1637798400&v=beta&t=C3YfJZqTgGh7RzgZC1U0S64GepYcWr8OzOE0bURj7Kw", favorite: false, key: '2' },
+        { username: "Rohet_Chitikela", name: "Rohet C", picture: "https://media-exp1.licdn.com/dms/image/C5603AQERqQbJGA8S7Q/profile-displayphoto-shrink_400_400/0/1600286036644?e=1637798400&v=beta&t=SBXfZiJAzXP7A9PSIDJDFdlfPMTuXJtU2XphXe3d_Q0", favorite: false, key: '3' },
+        { username: "Suj2001", name: "Sujay V", picture: "https://media-exp1.licdn.com/dms/image/C4D03AQEVehgIRmBoAA/profile-displayphoto-shrink_400_400/0/1587057007307?e=1637798400&v=beta&t=M2-x-sZbm1s8TigO-3IROiis8ErdfaqrVyY7gQmqTrg", favorite: false, key: '4' },
+        { username: "cadespector", name: "Cade S", picture: "https://media-exp1.licdn.com/dms/image/C4E03AQE7QpbWEbK02g/profile-displayphoto-shrink_400_400/0/1623100188390?e=1637798400&v=beta&t=WQL1HsOPTDXsAuVo4KVP1-GyN_f2QnOEEoDwtdDQvbA", favorite: false, key: '5' },
     ])
 
     // Load Montserrat font
@@ -76,7 +76,7 @@ export default function SearchScreen({ navigation }) {
                 <TextInput style={styles.searchbar} onChangeText={(newQuery) => setQuery(newQuery)} />
             </View>
             {/* Users List */}
-            <FlatList style={{width:"100%", marginTop:"3vh", marginBottom: "8.5vh"}} contentContainerStyle={styles.usercontainer} scrollEnabled={true} renderItem={renderItem} data={
+            <FlatList style={{width:"100%", marginTop:5, marginBottom: 10}} contentContainerStyle={styles.usercontainer} scrollEnabled={true} renderItem={renderItem} data={
                 // Sort users first by if favorited then alphabetically
                 users.sort(usersort)
                 // Filter out users whose name + username don't start with query
@@ -99,33 +99,33 @@ function usersort(a, b) {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: "50px",
-        paddingTop: "50px",
         width: "100%",
+        paddingTop: 30,
         flex: 1,
         backgroundColor: '#0F2138',
         alignItems: 'center',
     },
     searchbar: {
-        width: "100%",
         height: "100%",
+        flex: 1,
         paddingVertical: 10,
         paddingHorizontal: 8,
         backgroundColor: '#0F2138',
         borderBottomRightRadius: 10,
         borderTopRightRadius: 10,
         color: '#D64F27',
-        fontFamily: 'Montserrat_500Medium',
+        // fontFamily: 'Montserrat_500Medium',
     },
     searchcontainer: {
         backgroundColor: "#D64F27",
         width: "90%",
+        marginHorizontal: 1,
         flexDirection: 'row',
         alignItems: "center",
         borderWidth: 1,
         borderColor: "#D64F27",
         borderRadius: 10,
-        boxShadow: "0px 2px 4px #D64F27",
+        // boxShadow: "0px 2px 4px #D64F27",
     },
     icon: {
         paddingHorizontal: 6
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#D64F27",
         borderRadius: 10,
-        boxShadow: "0px 2px 4px #D64F27",
+        // boxShadow: "0px 2px 4px #D64F27",
     },
     usersummarycontainer: {
         flexDirection: 'row',
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     username: {
         margin: 1,
         color: "#D64F27",
-        fontFamily: "Montserrat_500Medium"
+        // fontFamily: "Montserrat_500Medium"
     },
     usertextcontainer: {
         flex: 1,
@@ -179,12 +179,12 @@ const styles = StyleSheet.create({
         borderColor: "#D64F27",
         borderRadius: 10,
         borderWidth: 1,
-        boxShadow: "0px 2px 8px #D64F27",
+        // boxShadow: "0px 2px 8px #D64F27",
     },
     activebuttontext: {
         color: "#D64F27",
         textAlign: "center",
-        fontFamily: "Montserrat_400Regular"
+        // fontFamily: "Montserrat_400Regular"
     }
 });
 

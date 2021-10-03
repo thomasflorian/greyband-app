@@ -9,27 +9,29 @@ import SearchScreen from './screens/SearchScreen';
 import PartyScreen from './screens/PartyScreen'
 
 export default function App() {
+
+  const Stack = createNativeStackNavigator();
+
   return (
-      <View style={styles.container}>
-          {/* <Menubar /> */}
-          <NavigationContainer initialRouteName="Party">
-            <Stack.Navigator>
-              <Stack.Screen name="Home" component={HomeScreen} options={{header: () => <Menubar />}}/>
-              <Stack.Screen name="Friends" component={SearchScreen} options={{header: () => <Menubar />}}/>
-              <Stack.Screen name="Party" component={PartyScreen} options={{header: () => <Menubar />}}/>
-            </Stack.Navigator>
-          </NavigationContainer>
-        <StatusBar style="auto" />
-      </View>
+    <View style={styles.container}>
+      <Menubar />
+      <NavigationContainer >
+        <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
+          <Stack.Screen name="Search" component={SearchScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Party" component={PartyScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      <StatusBar style="auto" />
+    </View>
   );
 }
-
-const Stack = createNativeStackNavigator();
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0F2138',
     justifyContent: 'center',
+    paddingTop: 30
   },
 });

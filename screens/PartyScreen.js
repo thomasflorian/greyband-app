@@ -38,38 +38,39 @@ export default function PartyScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: "50px",
-        paddingTop: "50px",
+        paddingTop: 30,
         width: "100%",
         flex: 1,
         backgroundColor: '#0F2138',
         alignItems: 'center',
-    },
+    }, 
     searchbar: {
-        width: "100%",
         height: "100%",
+        flex: 1,
         paddingVertical: 10,
         paddingHorizontal: 8,
         backgroundColor: '#0F2138',
         borderBottomRightRadius: 10,
         borderTopRightRadius: 10,
         color: '#D64F27',
-        fontFamily: 'Montserrat_500Medium',
+        // fontFamily: 'Montserrat_500Medium',
     },
     searchcontainer: {
         backgroundColor: "#D64F27",
         width: "90%",
+        marginHorizontal: 1,
         flexDirection: 'row',
         alignItems: "center",
         borderWidth: 1,
         borderColor: "#D64F27",
         borderRadius: 10,
-        boxShadow: "0px 2px 4px #D64F27",
+        // boxShadow: "0px 2px 4px #D64F27",
     },
     icon: {
         paddingHorizontal: 6
     },
     textcontainer: {
+        flex: 1,
         marginTop: 10,
         width: "90%",
         alignItems: "flex-start"
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     text: {
         paddingTop: 5,
         color: '#D64F27',
-        fontSize: '1rem',
+        fontSize: 20,
         fontFamily: "Montserrat_400Regular"
     }
 });

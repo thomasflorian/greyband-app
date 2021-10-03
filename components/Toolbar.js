@@ -22,7 +22,7 @@ export default function Toolbar({ navigation }) {
                     size={30}
                 />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Friends")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Search")}>
                 <Icon
                     name='search'
                     color='#D64F27'
@@ -41,17 +41,16 @@ export default function Toolbar({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        height: '50px',
+        height: 80,
         width: '100%',
-        position: 'absolute',
-        bottom: '0px',
+        backgroundColor: '#0F2138',
+        bottom: 0,
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'space-between',
         borderTopColor: "#D64F27",
         borderTopWidth: 1,
-        paddingHorizontal: "50px",
-        paddingVertical: "30px"
+        paddingHorizontal: 30,
     }
 
 });

@@ -24,21 +24,20 @@ export default function Menubar() {
 
 const styles = StyleSheet.create({
     container: {
-        height: '50px',
+        height: 50,
         width: '100%',
-        position: 'absolute',
-        top: '0px',
+        top: 0,
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: "10px",
+        padding: 10,
         backgroundColor: '#0F2138',
         borderBottomColor: "#D64F27",
         borderBottomWidth: 1
     },
     text: {
         color: "#D64F27",
-        fontFamily: "Montserrat_400Regular",
-        fontSize: "1.4rem"
+        // fontFamily: "Montserrat_400Regular",
+        fontSize: 22
     }
 });
