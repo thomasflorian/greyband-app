@@ -29,12 +29,14 @@ export default function Toolbar({ navigation }) {
                     size={30}
                 />
             </TouchableOpacity>
-            <Icon
-                name='user'
-                type="antdesign"
-                color='#D64F27'
-                size={30}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                <Icon
+                    name='user'
+                    type="antdesign"
+                    color='#D64F27'
+                    size={30}
+                />
+            </TouchableOpacity>
         </View>
     );
 }

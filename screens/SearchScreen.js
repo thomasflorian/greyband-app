@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useFonts, Montserrat_500Medium, Montserrat_400Regular } from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 import { Icon } from 'react-native-elements'
 
 // Import Components
@@ -32,42 +33,42 @@ export default function SearchScreen({ navigation }) {
     });
 
     const renderItem = ({ item }) => {
-        const {username, name, picture, favorite, key} = item;
-        return(
-        <View style={styles.user}>
-            <TouchableOpacity style={styles.usersummarycontainer} onPress={() => setSelectedUser((oldKey) => key === oldKey ? -1 : key)}>
-                <Image style={styles.userimage} source={{ uri: picture }} />
-                <View style={styles.usertextcontainer}>
-                    <Text style={styles.username}>{username}</Text>
-                    <Text style={styles.username}>{name}</Text>
-                </View>
-                <TouchableOpacity onPress={() => setUsers(users.map((user) => user.key == key ? { username, name, picture, favorite: !favorite, key } : user))}>
-                    <Icon style={{ marginRight: 10 }} name={favorite ? "star" : "star-outline"} color="yellow" size={30} />
+        const { username, name, picture, favorite, key } = item;
+        return (
+            <View style={styles.user}>
+                <TouchableOpacity style={styles.usersummarycontainer} onPress={() => setSelectedUser((oldKey) => key === oldKey ? -1 : key)}>
+                    <Image style={styles.userimage} source={{ uri: picture }} />
+                    <View style={styles.usertextcontainer}>
+                        <Text style={styles.username}>{username}</Text>
+                        <Text style={styles.username}>{name}</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => setUsers(users.map((user) => user.key == key ? { username, name, picture, favorite: !favorite, key } : user))}>
+                        <Icon style={{ marginRight: 10 }} name={favorite ? "star" : "star-outline"} color="yellow" size={30} />
+                    </TouchableOpacity>
                 </TouchableOpacity>
-            </TouchableOpacity>
-            { selectedUser == key && 
-                <View style={styles.activebuttoncontainer}>
-                    <View style={styles.activebuttonrow}>
-                        <TouchableOpacity style={styles.activebutton}>
-                            <Text style={styles.activebuttontext}>View Profile</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.activebutton}>
-                            <Text style={styles.activebuttontext}>Make Buddy</Text>
-                        </TouchableOpacity>
+                {selectedUser == key &&
+                    <View style={styles.activebuttoncontainer}>
+                        <View style={styles.activebuttonrow}>
+                            <TouchableOpacity style={styles.activebutton}>
+                                <Text style={styles.activebuttontext}>View Profile</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.activebutton}>
+                                <Text style={styles.activebuttontext}>Make Buddy</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.activebuttonrow}>
+                            <TouchableOpacity style={styles.activebutton}>
+                                <Text style={styles.activebuttontext}>Invite to Party</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.activebutton}>
+                                <Text style={styles.activebuttontext}>Join Party</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View style={styles.activebuttonrow}>
-                        <TouchableOpacity style={styles.activebutton}>
-                            <Text style={styles.activebuttontext}>Invite to Party</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.activebutton}>
-                            <Text style={styles.activebuttontext}>Join Party</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            }
-        </View>
-    )}
-
+                }
+            </View>
+        )
+    }
     return (
         <View style={styles.container}>
             {/* Search Bar */}
@@ -76,15 +77,16 @@ export default function SearchScreen({ navigation }) {
                 <TextInput style={styles.searchbar} onChangeText={(newQuery) => setQuery(newQuery)} />
             </View>
             {/* Users List */}
-            <FlatList style={{width:"100%", marginTop:5, marginBottom: 10}} contentContainerStyle={styles.usercontainer} scrollEnabled={true} renderItem={renderItem} data={
+            <FlatList style={{ width: "100%", marginTop: 5, marginBottom: 10 }} contentContainerStyle={styles.usercontainer} scrollEnabled={true} renderItem={renderItem} data={
                 // Sort users first by if favorited then alphabetically
                 users.sort(usersort)
-                // Filter out users whose name + username don't start with query
-                .filter(({ username, name }) => username.toLowerCase().startsWith(query.toLowerCase()) || name.toLowerCase().startsWith(query.toLowerCase()))
-            }/>
+                    // Filter out users whose name + username don't start with query
+                    .filter(({ username, name }) => username.toLowerCase().startsWith(query.toLowerCase()) || name.toLowerCase().startsWith(query.toLowerCase()))
+            } />
             <Toolbar navigation={navigation} />
         </View>
     );
+
 }
 
 // Function to sort user objects by if favorited and then alphabetically
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
     },
     activebuttoncontainer: {
         marginBottom: 15,
-    }, 
+    },
     activebuttonrow: {
         flexDirection: "row",
         justifyContent: "space-evenly"

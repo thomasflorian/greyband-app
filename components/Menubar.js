@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { useFonts, Montserrat_400Regular } from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 import { Icon } from 'react-native-elements'
 
 
@@ -13,11 +14,7 @@ export default function Menubar() {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>GreyBand</Text>
-            <Icon
-                name='menu'
-                color='#D64F27'
-                size={30}
-            />
+            <Icon name='menu' color='#D64F27' size={30} />
         </View>
     );
 }

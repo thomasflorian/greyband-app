@@ -6,11 +6,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Menubar from './components/Menubar'
 import HomeScreen from './screens/HomeScreen'
 import SearchScreen from './screens/SearchScreen';
-import PartyScreen from './screens/PartyScreen'
-
+import PartyScreen from './screens/PartyScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import EditProfileScreen from './screens/EditProfileScreen';
 export default function App() {
 
   const Stack = createNativeStackNavigator();
+
 
   return (
     <View style={styles.container}>
@@ -20,6 +22,8 @@ export default function App() {
           <Stack.Screen name="Search" component={SearchScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Party" component={PartyScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />

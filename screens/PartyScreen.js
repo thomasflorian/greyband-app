@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
 import { useFonts, Montserrat_400Regular, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 import { Icon } from 'react-native-elements'
 
 // Import Components
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#0F2138',
         alignItems: 'center',
-    }, 
+    },
     searchbar: {
         height: "100%",
         flex: 1,
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         color: '#D64F27',
         fontSize: 20,
-        fontFamily: "Montserrat_400Regular"
+        // fontFamily: "Montserrat_400Regular"
     }
 });
 
