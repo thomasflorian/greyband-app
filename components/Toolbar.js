@@ -8,34 +8,16 @@ export default function Toolbar({ navigation }) {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                <Icon
-                    name='home'
-                    color='#D64F27'
-                    size={30}
-                />
+                <Icon name='home' color='#D64F27' size={30} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Party")}>
-                <Icon
-                    name='party-popper'
-                    type='material-community'
-                    color='#D64F27'
-                    size={30}
-                />
+                <Icon name='party-popper' type='material-community' color='#D64F27' size={30} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Search")}>
-                <Icon
-                    name='search'
-                    color='#D64F27'
-                    size={30}
-                />
+                <Icon name='search' color='#D64F27' size={30} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                <Icon
-                    name='user'
-                    type="antdesign"
-                    color='#D64F27'
-                    size={30}
-                />
+                <Icon name='user' type="antdesign" color='#D64F27' size={30} />
             </TouchableOpacity>
         </View>
     );

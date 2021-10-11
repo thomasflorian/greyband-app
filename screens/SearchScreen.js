@@ -19,7 +19,7 @@ export default function SearchScreen({ navigation }) {
     // TODO: Obtain user list from database.
     const [users, setUsers] = useState([
         { username: "Mulcy", name: "Jack M", picture: "https://media-exp1.licdn.com/dms/image/C4D03AQGqkhwJ7lOgaw/profile-displayphoto-shrink_400_400/0/1627943347422?e=1637798400&v=beta&t=B_Pyxda4EmQptoamr55wpSWr7QSxZz7qUrI_oPjbdBg", favorite: false, key: '0' },
-        { username: "Mayarox5", name: "Maya A", picture: "https://media-exp1.licdn.com/dms/image/D5635AQHNBHwnvHPtDw/profile-framedphoto-shrink_400_400/0/1632152430403?e=1633374000&v=beta&t=bdk_9ObWUNNDFgCIKNtrquz5P_wkvDHqIbyMz4zJHRs", favorite: false, key: '1' },
+        { username: "Mayarox5", name: "Maya A", picture: "https://media-exp1.licdn.com/dms/image/D5635AQHNBHwnvHPtDw/profile-framedphoto-shrink_400_400/0/1632152430403?e=1633989600&v=beta&t=uTrRLCgJdYfdaBUJmj1kimsRoc_53pEuNdr3BF-AdYw", favorite: false, key: '1' },
         { username: "Specticole", name: "Cole S", picture: "https://media-exp1.licdn.com/dms/image/C4D03AQFIfOQDa8Qm9g/profile-displayphoto-shrink_400_400/0/1537903746651?e=1637798400&v=beta&t=C3YfJZqTgGh7RzgZC1U0S64GepYcWr8OzOE0bURj7Kw", favorite: false, key: '2' },
         { username: "Rohet_Chitikela", name: "Rohet C", picture: "https://media-exp1.licdn.com/dms/image/C5603AQERqQbJGA8S7Q/profile-displayphoto-shrink_400_400/0/1600286036644?e=1637798400&v=beta&t=SBXfZiJAzXP7A9PSIDJDFdlfPMTuXJtU2XphXe3d_Q0", favorite: false, key: '3' },
         { username: "Suj2001", name: "Sujay V", picture: "https://media-exp1.licdn.com/dms/image/C4D03AQEVehgIRmBoAA/profile-displayphoto-shrink_400_400/0/1587057007307?e=1637798400&v=beta&t=M2-x-sZbm1s8TigO-3IROiis8ErdfaqrVyY7gQmqTrg", favorite: false, key: '4' },
@@ -42,7 +42,7 @@ export default function SearchScreen({ navigation }) {
                         <Text style={styles.username}>{username}</Text>
                         <Text style={styles.username}>{name}</Text>
                     </View>
-                    <TouchableOpacity onPress={() => setUsers(users.map((user) => user.key == key ? { username, name, picture, favorite: !favorite, key } : user))}>
+                    <TouchableOpacity onPress={() => setUsers((oldUsers) => (oldUsers.map((user) => user.key == key ? { username, name, picture, favorite: !favorite, key } : user)))}>
                         <Icon style={{ marginRight: 10 }} name={favorite ? "star" : "star-outline"} color="yellow" size={30} />
                     </TouchableOpacity>
                 </TouchableOpacity>
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: "center",
         borderWidth: 1,
+        borderRightWidth: 2,
         borderColor: "#D64F27",
         borderRadius: 10,
         // boxShadow: "0px 2px 4px #D64F27",

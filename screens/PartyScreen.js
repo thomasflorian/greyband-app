@@ -1,8 +1,7 @@
 // Import Dependencies 
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
 import { useFonts, Montserrat_400Regular, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
-import AppLoading from 'expo-app-loading';
 import { Icon } from 'react-native-elements'
 
 // Import Components
@@ -11,7 +10,8 @@ import Toolbar from '../components/Toolbar';
 
 export default function PartyScreen({ navigation }) {
 
-    // State to track search query
+    // Hooks 
+    // track search query
     const [query, setQuery] = useState("");
 
     // Load Montserrat font
@@ -31,6 +31,9 @@ export default function PartyScreen({ navigation }) {
                 <Text style={styles.text}>Active Parties: {0}</Text>
                 <Text style={styles.text}>Available Parties: {3}</Text>
             </View>
+            <TouchableOpacity  onPress={() => navigation.navigate("CreateParty")} style={{width: "50%", maxWidth: 200, height: 40, backgroundColor:'#D64F27', borderRadius: 10, alignItems: "center", justifyContent: "center", marginVertical: 20}}>
+                <Text style={{color: '#0F2138', fontWeight: "bold"}}>Create Party</Text>
+            </TouchableOpacity>
             <Toolbar navigation={navigation} />
         </View>
     );
@@ -63,6 +66,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: "center",
         borderWidth: 1,
+        borderRightWidth: 2,
         borderColor: "#D64F27",
         borderRadius: 10,
         // boxShadow: "0px 2px 4px #D64F27",

@@ -24,15 +24,15 @@ export default function ProfileScreen({ navigation }) {
         <View style={styles.container}>
             <View style={styles.container}>
                 <View style={{ ...styles.box, flex: 2 }}>
-                    <View style={{...styles.row, flex: 1}}>
+                    <View style={{ ...styles.row, flex: 1 }}>
                         <Text style={styles.username}>{profile.username}</Text>
                         <TouchableOpacity style={styles.editbutton} onPress={() => navigation.navigate("EditProfile")}>
                             <Text style={styles.edittext}>Edit Profile</Text>
                             <Icon name='account-edit-outline' type='material-community' color='#D64F27' size={30} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{...styles.row, flex:5}}>
-                        <Image style={styles.picture} source={{uri: profile.picture}}></Image>
+                    <View style={{ ...styles.row, flex: 5 }}>
+                        <Image style={styles.picture} source={{ uri: profile.picture }}></Image>
                     </View>
                 </View>
                 <View style={{ ...styles.box, flex: 1 }}></View>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center"
-    }, 
+    },
     edittext: {
         color: '#D64F27',
         fontFamily: "Montserrat_400Regular",
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     picture: {
         height: "90%",
         width: "40%",
+        maxWidth: 200,
         borderRadius: 15,
     },
 });

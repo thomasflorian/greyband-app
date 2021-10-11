@@ -9,6 +9,7 @@ import SearchScreen from './screens/SearchScreen';
 import PartyScreen from './screens/PartyScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
+import CreatePartyScreen from './screens/CreateParty';
 export default function App() {
 
   const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ export default function App() {
           <Stack.Screen name="Party" component={PartyScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+          <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />
