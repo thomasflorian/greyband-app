@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Menubar from './components/Menubar'
@@ -10,15 +11,43 @@ import PartyScreen from './screens/PartyScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
 import CreatePartyScreen from './screens/CreateParty';
+import AppLoading from 'expo-app-loading';
+
 export default function App() {
 
   const Stack = createNativeStackNavigator();
 
+    // Load Montserrat font
+    let [fontsLoaded] = useFonts({
+      Montserrat_500Medium,
+      Montserrat_400Regular,
+      Montserrat_700Bold
+    });
+
+
+  const theme = {
+    dark: true,
+    colors: {
+      primary: '#D64F27',
+      background: '#0F2138',
+      card: '#0F2138',
+      text: '#D64F27',
+      border: '#D64F27',
+      notification: '#D64F27',
+    },
+    font: {
+      bold: "Montserrat_700Bold",
+      light: "Montserrat_400Regular",
+      regular: "Montserrat_500Medium",
+    }
+  };
+
 
   return (
-    <View style={styles.container}>
-      <Menubar />
-      <NavigationContainer >
+     !fontsLoaded ? <AppLoading /> :
+      <View style={styles(theme).container}>
+      <NavigationContainer theme={theme}>
+        <Menubar />
         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
           <Stack.Screen name="Search" component={SearchScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
@@ -33,10 +62,10 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = theme => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0F2138',
+    backgroundColor: theme.colors.background,
     justifyContent: 'center',
     paddingTop: 30
   },
