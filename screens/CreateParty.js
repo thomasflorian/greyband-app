@@ -27,8 +27,15 @@ export default function CreatePartyScreen({ navigation }) {
                 <TextInput placeholder="Cade's Party" placeholderTextColor={theme.colors.text} style={{ ...styles(theme).box, ...styles(theme).textInput, flex: 2, width: "70%", alignSelf: "center", textAlign: "center" }} />
                 <Text style={styles(theme).caption}>Description</ Text>
                 <TextInput placeholder="Be Safe, Have Fun" placeholderTextColor={theme.colors.text} style={{...styles(theme).box, ...styles(theme).textInput, flex: 5}} multiline={true}/>
-                
-                <View style={{ flex: 25 }}>
+                <Text style={styles(theme).caption}>Type</ Text>
+                <TouchableOpacity style={{...styles(theme).box, flex: 2, width: "50%", alignSelf: "flex-start", marginLeft: "5%"}}>
+                    <Text style={styles(theme).boxText}>Private</Text>
+                </TouchableOpacity>
+                <Text style={styles(theme).caption}>Safety Notifications</ Text>
+                <TouchableOpacity style={{...styles(theme).box, flex: 2, width: "50%", alignSelf: "flex-start", marginLeft: "5%"}}>
+                    <Text style={styles(theme).boxText}>Whole Party</Text>
+                </TouchableOpacity>
+                <View style={{ flex: 15 }}>
 
                 </View>
 
@@ -49,6 +56,7 @@ const styles = theme => StyleSheet.create({
     box: {
         width: "90%",
         alignSelf: "center",
+        justifyContent: "center",
         flex: 1,
         borderColor: theme.colors.border,
         borderWidth: 1,
@@ -65,6 +73,12 @@ const styles = theme => StyleSheet.create({
         fontFamily: theme.font.regular, 
         color: theme.colors.text, 
         paddingHorizontal: 10
+    },
+    boxText: {
+        textAlign: "center",
+        fontFamily: theme.font.light, 
+        color: theme.colors.text, 
+        fontSize: 20,
     }
 });
 
