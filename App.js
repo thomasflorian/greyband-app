@@ -12,6 +12,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
 import CreatePartyScreen from './screens/CreateParty';
 import AppLoading from 'expo-app-loading';
+import LoginScreen from './screens/LoginScreen';
 
 export default function App() {
 
@@ -42,13 +43,14 @@ export default function App() {
     }
   };
 
-
+  
   return (
      !fontsLoaded ? <AppLoading /> :
       <View style={styles(theme).container}>
       <NavigationContainer theme={theme}>
         <Menubar />
-        <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
+        <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
+          <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Search" component={SearchScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Party" component={PartyScreen} />
