@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/core';
+//import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements'
 import { auth } from '../src/database/firebase-index';
 
 
-export default function Menubar() {
+export default function Menubar({ navigation }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     // Get theme variables
     const theme = useTheme();
 
-    const navigation = useNavigation()
+    //const navigation = useNavigation()
 
     useEffect(() => {
         auth.onAuthStateChanged(user => {
             if (user) {
                 //user is logged in
-                setIsLoggedIn(true);
+                setIsLoggedIn(true)
             } else {
                 //user is logged out
-                setIsLoggedIn(false);
-                navigation.replace('Login')
-
+                setIsLoggedIn(false)
             }
         })
     })
@@ -32,7 +30,7 @@ export default function Menubar() {
         auth
             .signOut()
             .then(() => {
-                navigation.replace('Login')
+                setIsLoggedIn(false)
             })
             .catch(error => alert(error.message))
     }
