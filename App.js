@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,9 +13,11 @@ import EditProfileScreen from './screens/EditProfileScreen';
 import CreatePartyScreen from './screens/CreateParty';
 import AppLoading from 'expo-app-loading';
 import LoginScreen from './screens/LoginScreen';
+import { auth } from './src/database/firebase-index';
 
 export default function App() {
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
   const Stack = createNativeStackNavigator();
 
     // Load Montserrat font
@@ -43,25 +45,42 @@ export default function App() {
     }
   };
 
-  
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            //user is logged in
+            setIsLoggedIn(true)
+        } else {
+            //user is logged out
+            setIsLoggedIn(false)
+        }
+    })
+  })  
+
+  if(isLoggedIn){
+    return (
+      !fontsLoaded ? <AppLoading /> :
+       <View style={styles(theme).container}>
+       <NavigationContainer theme={theme}>
+         <Menubar />
+         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
+           <Stack.Screen name="Search" component={SearchScreen} />
+           <Stack.Screen name="Home" component={HomeScreen} />
+           <Stack.Screen name="Party" component={PartyScreen} />
+           <Stack.Screen name="Profile" component={ProfileScreen} />
+           <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+           <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
+         </Stack.Navigator>
+       </NavigationContainer>
+       <StatusBar style="auto" />
+     </View>
+   );
+  } 
   return (
-     !fontsLoaded ? <AppLoading /> :
-      <View style={styles(theme).container}>
-      <NavigationContainer theme={theme}>
-        <Menubar />
-        <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Search" component={SearchScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Party" component={PartyScreen} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-          <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <LoginScreen />
+  )
+
+  
 }
 
 const styles = theme => StyleSheet.create({

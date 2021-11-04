@@ -6,13 +6,11 @@ import { Icon } from 'react-native-elements'
 import { auth } from '../src/database/firebase-index';
 
 
-export default function Menubar({ navigation }) {
+export default function Menubar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     // Get theme variables
     const theme = useTheme();
-
-    //const navigation = useNavigation()
 
     useEffect(() => {
         auth.onAuthStateChanged(user => {
