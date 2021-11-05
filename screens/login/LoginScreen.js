@@ -62,7 +62,7 @@ const LoginScreen = ({navigation}) => {
 
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={handleSignUp}
+                onPress={navigation.navigate('Intro')}
                 style={[styles.button, styles.buttonOutline]}
             >
                 <Text style={styles.buttonOutlineText}>Register</Text>

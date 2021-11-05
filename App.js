@@ -58,7 +58,7 @@ const theme = {
     })
   })  
 
-  //if(isLoggedIn){
+  if(isLoggedIn){
     return (
       !fontsLoaded ? <AppLoading /> :
       <View style={styles(theme).container}>
@@ -77,10 +77,10 @@ const theme = {
     </View>
     );
     
-  //} 
-  //return (
-    //<LoggedOutPath />
-  //);
+  } 
+  return (
+    <LoggedOutPath />
+  );
    
   
     
@@ -137,18 +137,19 @@ const theme = {
 //   );
 // }
 
-// const LoggedOutPath = ( {navigation}) => {
+const LoggedOutPath = ( {navigation}) => {
 
-//   const Stack2 = createNativeStackNavigator();
+  const Stack2 = createNativeStackNavigator();
 
-//   return (
-//     <NavigationContainer>
-//     <Stack2.Navigator initialRouteName="Intro" screenOptions={{headerShown: false}}>
-//       <Stack2.Screen name="Intro" component={IntroScreen} />
-//       <Stack2.Screen name="Login" component={LoginScreen} />
-//     </Stack2.Navigator>
-//   </NavigationContainer>
-//   ) 
+  return (
+    <NavigationContainer>
+    <Stack2.Navigator initialRouteName="Intro" screenOptions={{headerShown: false}}>
+      <Stack2.Screen name="Intro" component={IntroScreen} />
+      <Stack2.Screen name="Login" component={LoginScreen} />
+    </Stack2.Navigator>
+  </NavigationContainer>
+  ) 
+}
 
 
 const styles = theme => StyleSheet.create({

@@ -28,7 +28,7 @@ const IntroScreen = ( {navigation }) => {
             <Image style={styles.logo_image} source={require(LOGO_PATH)}></Image>
             <Text style={styles.text} >For Nights{"\n"}Worth Remembering</Text>
 
-            <TouchableOpacity onPress={logInClicked}>
+            <TouchableOpacity onPress={navigation.navigate('Login')}>
                 <Text>Already Have a GreySun Account?{"\n"}Sign In</Text>
             </TouchableOpacity>
         </SafeAreaView>
