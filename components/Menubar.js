@@ -7,43 +7,23 @@ import { auth } from '../src/database/firebase-index';
 
 
 export default function Menubar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     // Get theme variables
     const theme = useTheme();
 
-    useEffect(() => {
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                //user is logged in
-                setIsLoggedIn(true)
-            } else {
-                //user is logged out
-                setIsLoggedIn(false)
-            }
-        })
-    })
-
     const handleSignOut = () => {
         auth
             .signOut()
-            .then(() => {
-                setIsLoggedIn(false)
-            })
             .catch(error => alert(error.message))
     }
 
-    if (isLoggedIn){
-        return (
-            <View style={styles(theme).container}>
-                <Text style={styles(theme).text}>GreyBand</Text>
-                <Icon name='menu' color={theme.colors.primary} size={30} 
-                onPress={handleSignOut}/>
-            </View>
-        );
-    }
-    console.log("loggedout");
-    return (null);
+    return (
+        <View style={styles(theme).container}>
+            <Text style={styles(theme).text}>GreyBand</Text>
+            <Icon name='menu' color={theme.colors.primary} size={30} 
+            onPress={handleSignOut}/>
+        </View>
+    );
     
 }       
 
