@@ -12,8 +12,9 @@ import ProfileScreen from './screens/ProfileScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
 import CreatePartyScreen from './screens/CreateParty';
 import AppLoading from 'expo-app-loading';
-import LoginScreen from './screens/LoginScreen';
+import LoginScreen from './screens/login/LoginScreen';
 import { auth } from './src/database/firebase-index';
+import IntroScreen from './screens/login/IntroScreen';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -57,29 +58,29 @@ export default function App() {
     })
   })  
 
-  if(isLoggedIn){
-    return (
-      !fontsLoaded ? <AppLoading /> :
-       <View style={styles(theme).container}>
-       <NavigationContainer theme={theme}>
-         <Menubar />
-         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
-           <Stack.Screen name="Search" component={SearchScreen} />
-           <Stack.Screen name="Home" component={HomeScreen} />
-           <Stack.Screen name="Party" component={PartyScreen} />
-           <Stack.Screen name="Profile" component={ProfileScreen} />
-           <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-           <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
-         </Stack.Navigator>
-       </NavigationContainer>
-       <StatusBar style="auto" />
-     </View>
-   );
-  } 
-  return (
-    <LoginScreen />
-  )
-
+  // if(isLoggedIn){
+  //   return (
+  //     !fontsLoaded ? <AppLoading /> :
+  //      <View style={styles(theme).container}>
+  //      <NavigationContainer theme={theme}>
+  //        <Menubar />
+  //        <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
+  //          <Stack.Screen name="Search" component={SearchScreen} />
+  //          <Stack.Screen name="Home" component={HomeScreen} />
+  //          <Stack.Screen name="Party" component={PartyScreen} />
+  //          <Stack.Screen name="Profile" component={ProfileScreen} />
+  //          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+  //          <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
+  //        </Stack.Navigator>
+  //      </NavigationContainer>
+  //      <StatusBar style="auto" />
+  //    </View>
+  //  );
+  // } 
+  // return (
+  //   <LoginScreen />
+  // )
+  return (<IntroScreen />)
   
 }
 
