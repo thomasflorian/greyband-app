@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const CreateAccounttScreen = () => {
+const CreateAccountScreen = () => {
     return (
         <View>
             <Text></Text>
@@ -9,6 +9,6 @@ const CreateAccounttScreen = () => {
     )
 }
 
-export default CreateAccounttScreen
+export default CreateAccountScreen
 
 const styles = StyleSheet.create({})
