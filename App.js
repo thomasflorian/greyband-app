@@ -15,6 +15,7 @@ import AppLoading from 'expo-app-loading';
 import LoginScreen from './screens/login/LoginScreen';
 import { auth, useAuthState } from './src/database/firebase-index';
 import IntroScreen from './screens/login/IntroScreen';
+import CreateAccountScreen from './screens/login/CreateAccountScreen';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -86,6 +87,7 @@ const theme = {
             <LoggedOutStack.Navigator initialRouteName="Login">
               <LoggedOutStack.Screen name="Intro" component={IntroScreen} />
               <LoggedOutStack.Screen name="Login" component={LoginScreen} />
+              <LoggedOutStack.Screen name="CreateAccount" component={CreateAccountScreen} />
             </LoggedOutStack.Navigator>
             </>
         ) }
