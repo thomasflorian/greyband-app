@@ -11,8 +11,6 @@ const LoginScreen = ({navigation}) => {
     const [password, setPassword] = useState('')
 
 
-    const theme = useTheme();
-
     const handleSignUp = () => {
         auth
             .createUserWithEmailAndPassword(email, password)
@@ -38,12 +36,12 @@ const LoginScreen = ({navigation}) => {
             style={styles.container}
             behavior="padding">
 
-        <View style={styles.inputContainer}>
+        <View>
             <TextInput 
                 placeholder="Email"
                 value = {email}
+                keyboardType='email-address'
                 onChangeText={ text => setEmail(text) }
-                stule={styles.input}
             />
             <TextInput 
                 placeholder="Password"
@@ -53,19 +51,16 @@ const LoginScreen = ({navigation}) => {
                 secureTextEntry
             />
         </View>
-        <View style={styles.buttonContainer}>
+        <View>
             <TouchableOpacity
                 onPress={handleLogin}
-                style={[styles.button, styles.buttonOutline]}
             >
                 <Text style={styles.buttonOutlineText}>Login</Text>
 
             </TouchableOpacity>
-            <TouchableOpacity
-                onPress={navigation.navigate('Intro')}
-                style={[styles.button, styles.buttonOutline]}
-            >
-                <Text style={styles.buttonOutlineText}>Register</Text>
+            
+            <TouchableOpacity onPress={() => navigation.navigate("Intro")}>
+                <Text>Register</Text>
 
             </TouchableOpacity>
         </View>
