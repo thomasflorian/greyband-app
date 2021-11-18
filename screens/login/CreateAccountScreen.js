@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Button, KeyboardAvoidingView, TextInput } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Button, KeyboardAvoidingView, TextInput, Alert } from 'react-native'
 import { useTheme } from '@react-navigation/native';
 import { _ScrollView } from 'react-native';
-import { db } from '../../src/database/firebase-index';
+import { db, auth } from '../../src/database/firebase-index';
 
 
 const WIDTH = Dimensions.get('window').width * .85
 
 
-const IntroScreen = ( {navigation }) => {
+
+const IntroScreen = ( {route, navigation }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -16,28 +17,70 @@ const IntroScreen = ( {navigation }) => {
     const theme = useTheme()
 
     
-    const handleSignUp = () => {
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log("Registered with: ", user.email);
-            })
-            .catch( error=> alert (error.message))
-        db
-            .collection("users").doc("LA").set({
-                name: "Los Angeles",
-                state: "CA",
-                country: "USA"
-            })
-            .then(() => {
-                console.log("Document successfully written!");
-            })
-            .catch((error) => {
-                console.error("Error writing document: ", error);
-            });
-    }
     
+    // const handleSignUp = () => {
+    //     auth
+    //         .createUserWithEmailAndPassword(email, password)
+    //         .then(userCredentials => {
+    //             const user = userCredentials.user;
+    //             console.log("Registered with:", user.email);
+    //         })
+    //         .then(() => {
+    //             const user = auth.currentUser;
+    //             const uid = user.uid;
+    //             db
+    //                 .collection("pre_users").doc(uid).set({
+    //                 })
+    //                 .then(() => {
+    //                     console.log("Document successfully written!");
+    //                 })
+    //                 .catch((error) => {
+    //                     console.error("Error writing document", error);
+
+    //                     user.delete().then(() => {
+    //                         console.log("User deleted because of doc write error")
+    //                         // User deleted.
+    //                       }).catch((error) => {
+    //                         console.log("Failed to delete user after doc write error")
+    //                         // An error ocurred
+    //                         // ...
+    //                       });
+    //                 });
+    //         })
+    //         .catch( error=> alert (error.message))
+        
+    // }
+
+    const validateEmail = (emailString) => {
+        const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (emailString.match(mailFormat)) {
+            return true;
+        }
+        return false;
+    }
+
+    const invalidEmailAlert = () =>
+    Alert.alert(
+      "Invalid Email",
+      "Please input a valid email",
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
+
+    const validatePass = (password) => {
+        return password.length >= 6;
+    }
+
+    const invalidPassAlert = () =>
+    Alert.alert(
+      "Invalid Password",
+      "Password must be over 6 characters",
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
+ 
     
 
     return (  
@@ -70,13 +113,23 @@ const IntroScreen = ( {navigation }) => {
                 <View style={styles(theme).bottom_of_screen}>
                     <View style={styles(theme).button_container }>
                         <Button 
-                            onPress={handleSignUp}
+                            onPress={() => {
+                                if(!validateEmail(email)){
+                                    invalidEmailAlert();
+                                } else if (!validatePass(password)) {
+                                    invalidPassAlert();
+                                } else {
+                                    navigation.navigate("Legal", {
+                                        email: email,
+                                        password: password,
+                                    })
+                                }}}
                             color={theme.colors.background}
-                            title="Get Started"
+                            title="Continue"
                         />
                     </View>
                     <TouchableOpacity onPress={() => {navigation.navigate('Intro')}}>
-                        <Text style={styles(theme).sign_in_text}>Cancel</Text>
+                        <Text style={styles(theme).cancel_text}>Cancel</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -84,6 +137,8 @@ const IntroScreen = ( {navigation }) => {
             
         </SafeAreaView>
     )
+
+    
 }
 
 export default IntroScreen
@@ -104,7 +159,7 @@ const styles = theme => (StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
     },
-    sign_in_text: {
+    cancel_text: {
         color: theme.colors.text,
         fontFamily: theme.font.light,
         fontSize: 12,
