@@ -15,11 +15,6 @@ const IntroScreen = ( {navigation }) => {
     const theme = useTheme()
 
     
-    function logInClicked( {navigation} ) {
-        navigation.navigate('Login')
-    }
-    
-    
 
     return (  
         <SafeAreaView style={styles(theme).background}>
