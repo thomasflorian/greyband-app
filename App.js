@@ -77,7 +77,12 @@ export default function App() {
    );
   } 
   return (
-    <LoginScreen />
+    <NavigationContainer theme={theme}>
+         <Menubar />
+         <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
+           <Stack.Screen name="Login" component={LoginScreen} />
+         </Stack.Navigator>
+       </NavigationContainer>
   )
 
   

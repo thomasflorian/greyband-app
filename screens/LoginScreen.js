@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native'
 import { auth } from '../src/database/firebase-index'
+import { useTheme } from '@react-navigation/native';
 
 
 
 const LoginScreen = ({navigation}) => {
     
+    const theme = useTheme()
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
-
-    // useEffect(() => {
-    //     const unsubscribe = auth.onAuthStateChanged(user => {
-    //         if (user) {
-    //             navigation.replace('Home')
-    //         }
-    //     })
-    //     return unsubscribe
-    // }, [])
-    
 
 
     const handleSignUp = () => {
@@ -41,53 +33,83 @@ const LoginScreen = ({navigation}) => {
         .catch( error=> alert (error.message))
     }
 
+ 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior="padding">
-
-        <View style={styles.inputContainer}>
-            <TextInput 
-                placeholder="Email"
-                value = {email}
-                onChangeText={ text => setEmail(text) }
-                stule={styles.input}
-            />
-            <TextInput 
-                placeholder="Password"
-                value = {password}
-                onChangeText={ text => setPassword(text)}
-                style={styles.input}
-                secureTextEntry
-            />
-        </View>
-        <View style={styles.buttonContainer}>
-            <TouchableOpacity
-                onPress={handleLogin}
-                style={[styles.button, styles.buttonOutline]}
-            >
-                <Text style={styles.buttonOutlineText}>Login</Text>
-
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={handleSignUp}
-                style={[styles.button, styles.buttonOutline]}
-            >
-                <Text style={styles.buttonOutlineText}>Register</Text>
-
-            </TouchableOpacity>
-        </View>
-
+        <KeyboardAvoidingView style={styles(theme).container} behavior="padding">
+            <View style={styles(theme).headerContainer}>
+                <Text style={styles(theme).header}>Sign In</Text>
+            </View>
+            <View style={styles(theme).inputContainer}>
+                <Text style={styles(theme).label}>Email</Text>
+                <TextInput placeholder="Enter your email" value={email} onChangeText={text => setEmail(text)} style={styles(theme).input} />
+                <Text style={styles(theme).label}>Password</Text>
+                <TextInput placeholder="Enter your password" value={password} onChangeText={text => setPassword(text)} style={styles(theme).input} secureTextEntry />
+            </View>
+            <View style={styles(theme).buttonContainer}>
+                <TouchableOpacity onPress={handleLogin} style={[styles(theme).button, styles(theme).buttonOutline]} >
+                    <Text style={styles(theme).buttonOutlineText}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleSignUp} style={[styles(theme).button, styles(theme).buttonOutline]} >
+                    <Text style={styles(theme).buttonOutlineText}>Register</Text>
+                </TouchableOpacity>
+            </View>
         </KeyboardAvoidingView>
     )
 }
 
 export default LoginScreen
 
-const styles = StyleSheet.create({
-    container : {
-      justifyContent: 'center',
-      alignItems : 'center',
-      flex: 1,
+const styles = theme => StyleSheet.create({
+    container: {
+        justifyContent: 'center',
+        backgroundColor: theme.colors.background,
+        alignItems: 'center',
+        flex: 1,
+    },
+    headerContainer: { 
+    },
+    header: {
+        fontFamily: theme.font.regular,
+        color: theme.colors.primary,
+        fontSize: 30,
+    },
+    inputContainer: {
+        width: "100%",
+        alignItems: "center"
+    },
+    input: {
+        width: "90%",
+        color: theme.colors.primary,
+        marginVertical: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        borderColor: theme.colors.primary,
+        borderWidth: 1,
+        marginBottom: 20,
+    },
+    label: {
+        alignSelf: "flex-start",
+        marginLeft: "5%",
+        color: theme.colors.primary,
+    },
+    buttonContainer: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-around"
+    },
+    button: {
+        width: "40%",
+        padding: 12,
+    },
+    buttonOutline: {
+        borderRadius: 10,
+        borderColor: theme.colors.primary,
+        borderWidth: 1,
+        marginBottom: 20,
+    },
+    buttonOutlineText: {
+        color: theme.colors.primary,
+        textAlign: "center"
     }
 })

@@ -1,11 +1,12 @@
 // Import Dependencies 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 
 // Import Components
 import Toolbar from '../components/Toolbar';
+import { auth, db } from '../src/database/firebase-index';
 
 
 export default function EditProfileScreen({ navigation }) {
@@ -14,20 +15,28 @@ export default function EditProfileScreen({ navigation }) {
     const theme = useTheme();
 
     const [flatlistRef, setFlatlistRef] = useState(undefined);
+    const [profile, setProfile] = useState({});
 
-    const [profile, setProfile] = useState({ username: "CadeSpector", name: "Cade Spector", picture: "https://media-exp1.licdn.com/dms/image/C4E03AQE7QpbWEbK02g/profile-displayphoto-shrink_400_400/0/1623100188390?e=1637798400&v=beta&t=WQL1HsOPTDXsAuVo4KVP1-GyN_f2QnOEEoDwtdDQvbA" });
+    useEffect(() => {
+        const uid = auth.currentUser.uid;
+        const userRef = db.collection("users").doc(uid);
+        userRef.get().then((doc) => {
+            setProfile(doc.data());
+            setOptions([{ label: "Name", value: profile.firstname + " " + profile.lastname, display: true, key: "1" },
+            { label: "Age", value: profile.age, display: false, key: "2" },
+            { label: "Hometown", value: profile.hometown, display: false, key: "3" },
+            { label: "Work and Education", value: profile.work, display: false, key: "4" },
+            { label: "Relationship Status", value: profile.relationship, display: false, key: "5" },
+            { label: "Pronouns", value: profile.pronouns, display: false, key: "6" },
+            { label: "Astrological Sign", value: profile.sign, display: false, key: "7" },
+            { label: "Current Interests", value: profile.interests, display: false, key: "8" },
+            { label: "Instagram", value: "", display: false, key: "9" },
+            { label: "Snapchat", value: "", display: false, key: "10" },
+            { label: "LinkedIn", value: "", display: false, key: "11" }])
+        });
+    })
 
-    const [options, setOptions] = useState([{ label: "Name", value: "Cade W Spector", display: true, key: "1" },
-    { label: "Age", value: "19", display: false, key: "2" },
-    { label: "Hometown", value: "Raleigh, NC", display: false, key: "3" },
-    { label: "Work and Education", value: "Duke University", display: false, key: "4" },
-    { label: "Relationship Status", value: "In a Relationship", display: false, key: "5" },
-    { label: "Pronouns", value: "Him/His", display: false, key: "6" },
-    { label: "Astrological Sign", value: "Taurus", display: false, key: "7" },
-    { label: "Current Interests", value: "J. Cole and NBA Playoffs", display: false, key: "8" },
-    { label: "Instagram", value: "", display: false, key: "9" },
-    { label: "Snapchat", value: "", display: false, key: "10" },
-    { label: "LinkedIn", value: "", display: false, key: "11" }])
+    const [options, setOptions] = useState([])
 
 
 
