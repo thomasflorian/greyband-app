@@ -4,8 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Menubar from './components/Menubar'
-import HomeScreen from './screens/HomeScreen'
+import { ProfileContext } from './context/ProfileContext';
+import Menubar from './components/Menubar';
+import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import PartyScreen from './screens/PartyScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -13,21 +14,22 @@ import EditProfileScreen from './screens/EditProfileScreen';
 import CreatePartyScreen from './screens/CreateParty';
 import AppLoading from 'expo-app-loading';
 import LoginScreen from './screens/LoginScreen';
-import { auth } from './src/database/firebase-index';
+import { auth, db } from './src/database/firebase-index';
+
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+
+  const [profile, setProfile] = useState(undefined);
   const Stack = createNativeStackNavigator();
 
-    // Load Montserrat font
-    let [fontsLoaded] = useFonts({
-      Montserrat_500Medium,
-      Montserrat_400Regular,
-      Montserrat_700Bold
-    });
+  // Load Montserrat font
+  let [fontsLoaded] = useFonts({
+    Montserrat_500Medium,
+    Montserrat_400Regular,
+    Montserrat_700Bold
+  });
 
-
+  // Specify theme
   const theme = {
     dark: true,
     colors: {
@@ -46,46 +48,55 @@ export default function App() {
   };
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            //user is logged in
-            setIsLoggedIn(true)
-        } else {
-            //user is logged out
-            setIsLoggedIn(false)
-        }
-    })
-  })  
+    let profileUnsub = () => { };
+    const authUnsub = auth.onAuthStateChanged(user => {
+      if (user) {
+        const uid = auth.currentUser.uid;
+        const userRef = db.collection("users").doc(uid);
+        profileUnsub(); // Unsubscribe from previous profile.
+        profileUnsub = userRef.onSnapshot((doc) => setProfile(doc.data()));
+      } else {
+        setProfile(undefined);
+      }
+    });
+    return () => {
+      authUnsub();
+      profileUnsub();
+    };
+  }, []);
 
-  if(isLoggedIn){
+
+  if (profile) {
     return (
       !fontsLoaded ? <AppLoading /> :
-       <View style={styles(theme).container}>
-       <NavigationContainer theme={theme}>
-         <Menubar />
-         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
-           <Stack.Screen name="Search" component={SearchScreen} />
-           <Stack.Screen name="Home" component={HomeScreen} />
-           <Stack.Screen name="Party" component={PartyScreen} />
-           <Stack.Screen name="Profile" component={ProfileScreen} />
-           <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-           <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
-         </Stack.Navigator>
-       </NavigationContainer>
-       <StatusBar style="auto" />
-     </View>
-   );
-  } 
-  return (
-    <NavigationContainer theme={theme}>
-         <Menubar />
-         <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false, gestureEnabled: false, animation: "none"}} >
-           <Stack.Screen name="Login" component={LoginScreen} />
-         </Stack.Navigator>
-       </NavigationContainer>
-  )
-
-  
+        <View style={styles(theme).container}>
+          <NavigationContainer theme={theme}>
+            <ProfileContext.Provider value={profile}>
+              <Menubar />
+              <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false, gestureEnabled: false, animation: "none" }} >
+                <Stack.Screen name="Search" component={SearchScreen} />
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Party" component={PartyScreen} />
+                <Stack.Screen name="Profile" component={ProfileScreen} />
+                <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+                <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
+              </Stack.Navigator>
+            </ProfileContext.Provider>
+          </NavigationContainer>
+          <StatusBar style="auto" />
+        </View>
+    );
+  } else {
+    return (
+      !fontsLoaded ? <AppLoading /> :
+        <NavigationContainer theme={theme}>
+          <Menubar />
+          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, gestureEnabled: false, animation: "none" }} >
+            <Stack.Screen name="Login" component={LoginScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+    )
+  }
 }
 
 const styles = theme => StyleSheet.create({

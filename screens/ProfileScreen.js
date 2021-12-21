@@ -1,11 +1,12 @@
 // Import Dependencies 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 
 // Import Components
 import Toolbar from '../components/Toolbar';
+import { ProfileContext } from '../context/ProfileContext';
 import { auth, db } from '../src/database/firebase-index';
 
 
@@ -13,13 +14,13 @@ export default function ProfileScreen({ navigation }) {
 
     // Get theme variables
     const theme = useTheme();
-    const [profile, setProfile] = useState({});
+    const profile = useContext(ProfileContext);
     
-    useEffect(() => {
-        const uid = auth.currentUser.uid;
-        const userRef = db.collection("users").doc(uid);
-        userRef.get().then((doc) => setProfile(doc.data()));
-    })
+    // useEffect(() => {
+    //     const uid = auth.currentUser.uid;
+    //     const userRef = db.collection("users").doc(uid);
+    //     userRef.get().then((doc) => setProfile(doc.data()));
+    // })
 
     // State to track profile
     // TODO: Continuously update profile from firebase

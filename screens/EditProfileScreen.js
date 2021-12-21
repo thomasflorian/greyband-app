@@ -1,9 +1,9 @@
 // Import Dependencies 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
-
+import { ProfileContext } from '../context/ProfileContext';
 // Import Components
 import Toolbar from '../components/Toolbar';
 import { auth, db } from '../src/database/firebase-index';
@@ -11,42 +11,39 @@ import { auth, db } from '../src/database/firebase-index';
 
 export default function EditProfileScreen({ navigation }) {
 
-    // Get theme variables
+    // Get variables
     const theme = useTheme();
-
+    const profile = useContext(ProfileContext);
     const [flatlistRef, setFlatlistRef] = useState(undefined);
-    const [profile, setProfile] = useState({});
 
     useEffect(() => {
-        const uid = auth.currentUser.uid;
-        const userRef = db.collection("users").doc(uid);
-        userRef.get().then((doc) => {
-            setProfile(doc.data());
-            setOptions([{ label: "Name", value: profile.firstname + " " + profile.lastname, display: true, key: "1" },
-            { label: "Age", value: profile.age, display: false, key: "2" },
-            { label: "Hometown", value: profile.hometown, display: false, key: "3" },
-            { label: "Work and Education", value: profile.work, display: false, key: "4" },
-            { label: "Relationship Status", value: profile.relationship, display: false, key: "5" },
-            { label: "Pronouns", value: profile.pronouns, display: false, key: "6" },
-            { label: "Astrological Sign", value: profile.sign, display: false, key: "7" },
-            { label: "Current Interests", value: profile.interests, display: false, key: "8" },
-            { label: "Instagram", value: "", display: false, key: "9" },
-            { label: "Snapchat", value: "", display: false, key: "10" },
-            { label: "LinkedIn", value: "", display: false, key: "11" }])
-        });
-    })
+        setOptions([{ label: "Name", value: profile.firstname + " " + profile.lastname, display: true, key: "1" },
+        { label: "Age", value: profile.age, display: false, key: "2" },
+        { label: "Hometown", value: profile.hometown, display: false, key: "3" },
+        { label: "Work and Education", value: profile.work, display: false, key: "4" },
+        { label: "Relationship Status", value: profile.relationship, display: false, key: "5" },
+        { label: "Pronouns", value: profile.pronouns, display: false, key: "6" },
+        { label: "Astrological Sign", value: profile.sign, display: false, key: "7" },
+        { label: "Current Interests", value: profile.interests, display: false, key: "8" },
+        { label: "Instagram", value: "", display: false, key: "9" },
+        { label: "Snapchat", value: "", display: false, key: "10" },
+        { label: "LinkedIn", value: "", display: false, key: "11" }])
+    }, [options, profile]);
 
-    const [options, setOptions] = useState([])
-
+    const [options, setOptions] = useState([]);
 
 
     const handleValueChange = (newValue, key) => {
         setOptions((oldOptions) => (oldOptions.map((option) => option.key == key ? { ...option, value: newValue } : option)))
-    }
+    };
 
     const handleDisplayToggle = (key) => {
         setOptions((oldOptions) => (oldOptions.map((option) => option.key == key ? { ...option, display: !option.display } : option)))
-    }
+    };
+
+    const saveProfileChanges = () => {
+        
+    };
 
     const renderItem = ({ item: { label, value, display, key }, index }) => {
         return (
