@@ -6,7 +6,7 @@ import { Icon } from 'react-native-elements';
 
 // Import Components
 import Toolbar from '../components/Toolbar';
-import { ProfileContext } from '../context/ProfileContext';
+import { UserdataContext } from '../context/UserdataContext';
 import { auth, db } from '../src/database/firebase-index';
 
 
@@ -14,30 +14,22 @@ export default function ProfileScreen({ navigation }) {
 
     // Get theme variables
     const theme = useTheme();
-    const profile = useContext(ProfileContext);
-    
-    // useEffect(() => {
-    //     const uid = auth.currentUser.uid;
-    //     const userRef = db.collection("users").doc(uid);
-    //     userRef.get().then((doc) => setProfile(doc.data()));
-    // })
+    const userdata = useContext(UserdataContext);
 
-    // State to track profile
-    // TODO: Continuously update profile from firebase
 
     return (
         <View style={styles(theme).container}>
             <View style={styles(theme).container}>
                 <View style={{ ...styles(theme).box, flex: 2 }}>
                     <View style={styles(theme).row}>
-                        <Text style={styles(theme).username}>{profile.username}</Text>
+                        <Text style={styles(theme).username}>{userdata.username}</Text>
                         <TouchableOpacity style={styles(theme).editbutton} onPress={() => navigation.navigate("EditProfile")}>
                             <Text style={styles(theme).edittext}>Edit Profile</Text>
                             <Icon name='account-edit-outline' type='material-community' color={theme.colors.primary} size={30} />
                         </TouchableOpacity>
                     </View>
                     <View style={{ ...styles(theme).row, flex: 5 }}>
-                        <Image style={styles(theme).picture} source={{ uri: profile.picture }}></Image>
+                        <Image style={styles(theme).picture} source={{ uri: userdata.profile.picture }}></Image>
                     </View>
                 </View>
                 <View style={styles(theme).box}></View>

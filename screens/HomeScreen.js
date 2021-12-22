@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TextInput } from 'react-native';
 import Toolbar from '../components/Toolbar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
+import { UserdataContext } from '../context/UserdataContext';
 
 export default function HomeScreen({ navigation }) {
 
     // Get theme variables
     const theme = useTheme();
+    // Get user data
+    const userdata = useContext(UserdataContext);
+
 
     // Track rotation value of bac select slider
     const [rot, setRot] = useState("0");
@@ -47,7 +51,7 @@ export default function HomeScreen({ navigation }) {
             <TextInput onChangeText={(input) => setRot(input)} />
             <Text style={styles(theme).blowtitle}>Last Recorded Blow</Text>
             <View style={styles(theme).blowbox}>
-                <Text style={styles(theme).blowtext}>0.00%</Text>
+                <Text style={styles(theme).blowtext}>{(userdata.blows.length ? userdata.blows[userdata.blows.length - 1].bac : "0.00") + "%"}</Text>
             </View>
             <View style={styles(theme).targetSliderContainer}>
                 <View onResponderMove={handleClick} onStartShouldSetResponder={() => true} >

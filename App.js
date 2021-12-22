@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ProfileContext } from './context/ProfileContext';
+import { UserdataContext } from './context/UserdataContext';
 import Menubar from './components/Menubar';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
@@ -19,7 +19,7 @@ import { auth, db } from './src/database/firebase-index';
 
 export default function App() {
 
-  const [profile, setProfile] = useState(undefined);
+  const [userdata, setUserdata] = useState(undefined);
   const Stack = createNativeStackNavigator();
 
   // Load Montserrat font
@@ -48,30 +48,30 @@ export default function App() {
   };
 
   useEffect(() => {
-    let profileUnsub = () => { };
+    let userdataUnsub = () => { };
     const authUnsub = auth.onAuthStateChanged(user => {
       if (user) {
         const uid = auth.currentUser.uid;
         const userRef = db.collection("users").doc(uid);
-        profileUnsub(); // Unsubscribe from previous profile.
-        profileUnsub = userRef.onSnapshot((doc) => setProfile(doc.data()));
+        userdataUnsub(); // Unsubscribe from previous profile.
+        userdataUnsub = userRef.onSnapshot((doc) => setUserdata(doc.data()));
       } else {
-        setProfile(undefined);
+        setUserdata(undefined);
       }
     });
     return () => {
       authUnsub();
-      profileUnsub();
+      userdataUnsub();
     };
   }, []);
 
 
-  if (profile) {
+  if (userdata) {
     return (
       !fontsLoaded ? <AppLoading /> :
         <View style={styles(theme).container}>
           <NavigationContainer theme={theme}>
-            <ProfileContext.Provider value={profile}>
+            <UserdataContext.Provider value={userdata}>
               <Menubar />
               <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false, gestureEnabled: false, animation: "none" }} >
                 <Stack.Screen name="Search" component={SearchScreen} />
@@ -81,7 +81,7 @@ export default function App() {
                 <Stack.Screen name="EditProfile" component={EditProfileScreen} />
                 <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
               </Stack.Navigator>
-            </ProfileContext.Provider>
+            </UserdataContext.Provider>
           </NavigationContainer>
           <StatusBar style="auto" />
         </View>

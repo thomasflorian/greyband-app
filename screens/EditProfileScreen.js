@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
-import { ProfileContext } from '../context/ProfileContext';
+import { UserdataContext } from '../context/UserdataContext';
 // Import Components
 import Toolbar from '../components/Toolbar';
 import { auth, db } from '../src/database/firebase-index';
@@ -13,36 +13,43 @@ export default function EditProfileScreen({ navigation }) {
 
     // Get variables
     const theme = useTheme();
-    const profile = useContext(ProfileContext);
+    const userdata = useContext(UserdataContext);
     const [flatlistRef, setFlatlistRef] = useState(undefined);
-
-    useEffect(() => {
-        setOptions([{ label: "Name", value: profile.firstname + " " + profile.lastname, display: true, key: "1" },
-        { label: "Age", value: profile.age, display: false, key: "2" },
-        { label: "Hometown", value: profile.hometown, display: false, key: "3" },
-        { label: "Work and Education", value: profile.work, display: false, key: "4" },
-        { label: "Relationship Status", value: profile.relationship, display: false, key: "5" },
-        { label: "Pronouns", value: profile.pronouns, display: false, key: "6" },
-        { label: "Astrological Sign", value: profile.sign, display: false, key: "7" },
-        { label: "Current Interests", value: profile.interests, display: false, key: "8" },
-        { label: "Instagram", value: "", display: false, key: "9" },
-        { label: "Snapchat", value: "", display: false, key: "10" },
-        { label: "LinkedIn", value: "", display: false, key: "11" }])
-    }, [options, profile]);
-
     const [options, setOptions] = useState([]);
 
+    useEffect(() => {
+        setOptions([
+        { name: "firstname", changed: false, label: "First Name", value: userdata.profile.firstname, display: userdata.display.firstname, key: "1" },
+        { name: "lastname", changed: false, label: "Last Name", value: userdata.profile.lastname, display: userdata.display.lastname, key: "2" },
+        { name: "age", changed: false, label: "Age", value: userdata.profile.age, display: userdata.display.age, key: "3" },
+        { name: "hometown", changed: false, label: "Hometown", value: userdata.profile.hometown, display: userdata.display.hometown, key: "4" },
+        { name: "work", changed: false, label: "Work and Education", value: userdata.profile.work, display: userdata.display.work, key: "5" },
+        { name: "relationship", changed: false, label: "Relationship Status", value: userdata.profile.relationship, display: userdata.display.relationship, key: "6" },
+        { name: "pronouns", changed: false, label: "Pronouns", value: userdata.profile.pronouns, display: userdata.display.pronouns, key: "7" },
+        { name: "sign", changed: false, label: "Astrological Sign", value: userdata.profile.sign, display: userdata.display.sign, key: "8" },
+        { name: "interests", changed: false, label: "Current Interests", value: userdata.profile.interests, display: userdata.display.interests, key: "9" },
+        { name: "instagram", changed: false, label: "Instagram", value: userdata.profile.instagram, display: userdata.display.instagram, key: "10" },
+        { name: "snapchat", changed: false, label: "Snapchat", value: userdata.profile.snapchat, display: userdata.display.snapchat, key: "11" },
+        { name: "linkedin", changed: false, label: "LinkedIn", value: userdata.profile.linkedin, display: userdata.display.linkedin, key: "12" }])
+    }, [userdata]);
 
     const handleValueChange = (newValue, key) => {
-        setOptions((oldOptions) => (oldOptions.map((option) => option.key == key ? { ...option, value: newValue } : option)))
+        setOptions((oldOptions) => (oldOptions.map((option) => option.key == key ? { ...option, value: newValue, changed: true } : option)))
     };
 
     const handleDisplayToggle = (key) => {
-        setOptions((oldOptions) => (oldOptions.map((option) => option.key == key ? { ...option, display: !option.display } : option)))
+        setOptions((oldOptions) => (oldOptions.map((option) => option.key == key ? { ...option, display: !option.display, changed: true } : option)))
     };
 
     const saveProfileChanges = () => {
-        
+        let newProfile = {...userdata.profile}
+        let newDisplay = {...userdata.display}
+        options.filter((item) => item.changed).forEach((item) => {
+            newProfile[item.name] = item.value;
+            newDisplay[item.name] = item.display;
+        });
+        const uid = auth.currentUser.uid;
+        return db.collection("users").doc(uid).set({profile: newProfile, display: newDisplay}, { merge: true });
     };
 
     const renderItem = ({ item: { label, value, display, key }, index }) => {
@@ -65,14 +72,14 @@ export default function EditProfileScreen({ navigation }) {
             <View style={styles(theme).box}>
                 <View style={{ width: "100%", flex: 1 }}>
                     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginVertical: 10 }}>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={() => navigation.navigate("Profile")}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 1 }} onPress={() => saveProfileChanges().then(() => navigation.navigate("Profile"))}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
                         <Text style={{ color: theme.colors.text, fontSize: 24, flex: 4, textAlign: "center", fontFamily: theme.font.light }}>Edit Profile</Text>
                         <View style={{ flex: 1 }}></View>
                     </View>
                 </View>
                 <View style={{ width: "100%", flex: 2, marginBottom: 20, alignItems: "center" }}>
                     <TouchableOpacity style={{ width: "30%", maxWidth: 150 }}>
-                        <Image style={styles(theme).picture} source={{ uri: profile.picture }}></Image>
+                        <Image style={styles(theme).picture} source={{ uri: userdata.profile.picture }}></Image>
                     </TouchableOpacity>
                 </View>
                 <View style={{ width: "100%", flex: 10 }}>

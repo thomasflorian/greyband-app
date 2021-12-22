@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 
-export const ProfileContext = createContext({
+export const UserdataContext = createContext({
     "_id": 3,
     "username": "Rohet_Chitikela",
     "firstname": "Rohet",

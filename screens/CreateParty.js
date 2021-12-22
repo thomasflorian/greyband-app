@@ -2,7 +2,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-
 import { Icon } from 'react-native-elements';
 
 // Import Components
@@ -38,7 +37,6 @@ export default function CreatePartyScreen({ navigation }) {
                 <View style={{ flex: 15 }}>
 
                 </View>
-
             </View>
             <Toolbar navigation={navigation} />
         </View>
