@@ -28,8 +28,20 @@ export default function ProfileScreen({ navigation }) {
                             <Icon name='account-edit-outline' type='material-community' color={theme.colors.primary} size={30} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ ...styles(theme).row, flex: 5 }}>
+                    <View style={{ ...styles(theme).row, flex: 5, justifyContent: "flex-start"}}>
                         <Image style={styles(theme).picture} source={{ uri: userdata.profile.picture }}></Image>
+                        <View style={{marginLeft: 10}}>
+                            <View style={{flexDirection:"row"}}>
+                                {userdata.display.firstname && <Text style={{color: theme.colors.primary}}>{userdata.profile.firstname} </Text>}
+                                {userdata.display.lastname && <Text style={{color: theme.colors.primary}}>{userdata.profile.lastname}</Text>}
+                            </View>
+                            {userdata.display.pronouns && <Text style={{color: theme.colors.primary}}>{userdata.profile.pronouns}</Text>}
+                            {userdata.display.age && <Text style={{color: theme.colors.primary}}>{userdata.profile.age} years old</Text>}
+                            {userdata.display.hometown && <Text style={{color: theme.colors.primary}}>{userdata.profile.hometown}</Text>}
+                            {userdata.display.work && <Text style={{color: theme.colors.primary}}>{userdata.profile.work}</Text>}
+                            {userdata.display.relationship && <Text style={{color: theme.colors.primary}}>{userdata.profile.relationship}</Text>}
+                            {userdata.display.sign && <Text style={{color: theme.colors.primary}}>{userdata.profile.sign}</Text>}
+                        </View>
                     </View>
                 </View>
                 <View style={styles(theme).box}></View>

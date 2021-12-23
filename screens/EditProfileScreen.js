@@ -3,9 +3,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
-import { UserdataContext } from '../context/UserdataContext';
 // Import Components
 import Toolbar from '../components/Toolbar';
+import { UserdataContext } from '../context/UserdataContext';
 import { auth, db } from '../src/database/firebase-index';
 
 
@@ -19,18 +19,18 @@ export default function EditProfileScreen({ navigation }) {
 
     useEffect(() => {
         setOptions([
-        { name: "firstname", changed: false, label: "First Name", value: userdata.profile.firstname, display: userdata.display.firstname, key: "1" },
-        { name: "lastname", changed: false, label: "Last Name", value: userdata.profile.lastname, display: userdata.display.lastname, key: "2" },
-        { name: "age", changed: false, label: "Age", value: userdata.profile.age, display: userdata.display.age, key: "3" },
-        { name: "hometown", changed: false, label: "Hometown", value: userdata.profile.hometown, display: userdata.display.hometown, key: "4" },
-        { name: "work", changed: false, label: "Work and Education", value: userdata.profile.work, display: userdata.display.work, key: "5" },
-        { name: "relationship", changed: false, label: "Relationship Status", value: userdata.profile.relationship, display: userdata.display.relationship, key: "6" },
-        { name: "pronouns", changed: false, label: "Pronouns", value: userdata.profile.pronouns, display: userdata.display.pronouns, key: "7" },
-        { name: "sign", changed: false, label: "Astrological Sign", value: userdata.profile.sign, display: userdata.display.sign, key: "8" },
-        { name: "interests", changed: false, label: "Current Interests", value: userdata.profile.interests, display: userdata.display.interests, key: "9" },
-        { name: "instagram", changed: false, label: "Instagram", value: userdata.profile.instagram, display: userdata.display.instagram, key: "10" },
-        { name: "snapchat", changed: false, label: "Snapchat", value: userdata.profile.snapchat, display: userdata.display.snapchat, key: "11" },
-        { name: "linkedin", changed: false, label: "LinkedIn", value: userdata.profile.linkedin, display: userdata.display.linkedin, key: "12" }])
+            { name: "firstname", changed: false, label: "First Name", value: userdata.profile.firstname, display: userdata.display.firstname, key: "1" },
+            { name: "lastname", changed: false, label: "Last Name", value: userdata.profile.lastname, display: userdata.display.lastname, key: "2" },
+            { name: "age", changed: false, label: "Age", value: userdata.profile.age, display: userdata.display.age, key: "3" },
+            { name: "hometown", changed: false, label: "Hometown", value: userdata.profile.hometown, display: userdata.display.hometown, key: "4" },
+            { name: "work", changed: false, label: "Work and Education", value: userdata.profile.work, display: userdata.display.work, key: "5" },
+            { name: "relationship", changed: false, label: "Relationship Status", value: userdata.profile.relationship, display: userdata.display.relationship, key: "6" },
+            { name: "pronouns", changed: false, label: "Pronouns", value: userdata.profile.pronouns, display: userdata.display.pronouns, key: "7" },
+            { name: "sign", changed: false, label: "Astrological Sign", value: userdata.profile.sign, display: userdata.display.sign, key: "8" },
+            { name: "interests", changed: false, label: "Current Interests", value: userdata.profile.interests, display: userdata.display.interests, key: "9" },
+            { name: "instagram", changed: false, label: "Instagram", value: userdata.profile.instagram, display: userdata.display.instagram, key: "10" },
+            { name: "snapchat", changed: false, label: "Snapchat", value: userdata.profile.snapchat, display: userdata.display.snapchat, key: "11" },
+            { name: "linkedin", changed: false, label: "LinkedIn", value: userdata.profile.linkedin, display: userdata.display.linkedin, key: "12" }])
     }, [userdata]);
 
     const handleValueChange = (newValue, key) => {
@@ -42,14 +42,19 @@ export default function EditProfileScreen({ navigation }) {
     };
 
     const saveProfileChanges = () => {
-        let newProfile = {...userdata.profile}
-        let newDisplay = {...userdata.display}
-        options.filter((item) => item.changed).forEach((item) => {
-            newProfile[item.name] = item.value;
-            newDisplay[item.name] = item.display;
-        });
-        const uid = auth.currentUser.uid;
-        return db.collection("users").doc(uid).set({profile: newProfile, display: newDisplay}, { merge: true });
+        let newProfile = { ...userdata.profile }
+        let newDisplay = { ...userdata.display }
+        const newOptions = options.filter((item) => item.changed)
+        if (newOptions.length) {
+            newOptions.forEach((item) => {
+                newProfile[item.name] = item.value;
+                newDisplay[item.name] = item.display;
+            });
+            const uid = auth.currentUser.uid;
+            // TODO: Catch errors due to internet connection etc.
+            db.collection("users").doc(uid).set({ profile: newProfile, display: newDisplay }, { merge: true });
+        }
+        navigation.navigate("Profile");
     };
 
     const renderItem = ({ item: { label, value, display, key }, index }) => {
@@ -72,7 +77,7 @@ export default function EditProfileScreen({ navigation }) {
             <View style={styles(theme).box}>
                 <View style={{ width: "100%", flex: 1 }}>
                     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginVertical: 10 }}>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={() => saveProfileChanges().then(() => navigation.navigate("Profile"))}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 1 }} onPress={saveProfileChanges}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
                         <Text style={{ color: theme.colors.text, fontSize: 24, flex: 4, textAlign: "center", fontFamily: theme.font.light }}>Edit Profile</Text>
                         <View style={{ flex: 1 }}></View>
                     </View>
@@ -92,7 +97,7 @@ export default function EditProfileScreen({ navigation }) {
 }
 
 // Styles
-const styles = theme => (StyleSheet.create({
+const styles = theme => StyleSheet.create({
     container: {
         width: "100%",
         flex: 1,
@@ -113,5 +118,5 @@ const styles = theme => (StyleSheet.create({
         height: "100%",
         borderRadius: 10,
     }
-}));
+});
 

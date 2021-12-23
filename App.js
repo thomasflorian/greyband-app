@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -14,6 +14,10 @@ import EditProfileScreen from './screens/EditProfileScreen';
 import CreatePartyScreen from './screens/CreateParty';
 import AppLoading from 'expo-app-loading';
 import LoginScreen from './screens/LoginScreen';
+import EntryScreen from './screens/EntryScreen';
+import EmailScreen from './screens/registration/EmailScreen';
+import UsernameScreen from './screens/registration/UsernameScreen';
+import PasswordScreen from './screens/registration/PasswordScreen';
 import { auth, db } from './src/database/firebase-index';
 
 
@@ -69,7 +73,7 @@ export default function App() {
   if (userdata) {
     return (
       !fontsLoaded ? <AppLoading /> :
-        <View style={styles(theme).container}>
+        <SafeAreaView style={styles(theme).container}>
           <NavigationContainer theme={theme}>
             <UserdataContext.Provider value={userdata}>
               <Menubar />
@@ -84,17 +88,23 @@ export default function App() {
             </UserdataContext.Provider>
           </NavigationContainer>
           <StatusBar style="auto" />
-        </View>
+        </SafeAreaView>
     );
   } else {
     return (
       !fontsLoaded ? <AppLoading /> :
-        <NavigationContainer theme={theme}>
-          <Menubar />
-          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, gestureEnabled: false, animation: "none" }} >
-            <Stack.Screen name="Login" component={LoginScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <SafeAreaView style={styles(theme).container}>
+          <NavigationContainer theme={theme}>
+            <Menubar />
+            <Stack.Navigator initialRouteName="Entry" screenOptions={{ headerShown: false, gestureEnabled: false, animation: "none" }} >
+              <Stack.Screen name="Entry" component={EntryScreen} />
+              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Email" component={EmailScreen} />
+              <Stack.Screen name="Username" component={UsernameScreen} />
+              <Stack.Screen name="Password" component={PasswordScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
     )
   }
 }
@@ -104,6 +114,5 @@ const styles = theme => StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.background,
     justifyContent: 'center',
-    paddingTop: 30
   },
 });

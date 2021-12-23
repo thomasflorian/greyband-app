@@ -28,16 +28,16 @@ export default function Toolbar({ navigation }) {
 
 const styles = theme => StyleSheet.create({
     container: {
-        height: 80,
         width: '100%',
-        backgroundColor: theme.colors.background,
+        backgroundColor: theme.colors.backgroundColor,
         bottom: 0,
         flexDirection: "row",
-        alignItems: 'center',
+        alignItems: "flex-end",
         justifyContent: 'space-between',
         borderTopColor: theme.colors.border,
         borderTopWidth: 1,
         paddingHorizontal: 30,
+        paddingTop: 20,
     }
 
 });

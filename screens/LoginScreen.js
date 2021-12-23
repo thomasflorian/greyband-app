@@ -5,8 +5,8 @@ import { useTheme } from '@react-navigation/native';
 
 
 
-const LoginScreen = ({navigation}) => {
-    
+function LoginScreen({ navigation }) {
+
     const theme = useTheme()
 
     const [email, setEmail] = useState('')
@@ -20,22 +20,25 @@ const LoginScreen = ({navigation}) => {
                 const user = userCredentials.user;
                 console.log("Registered with: ", user.email);
             })
-            .catch( error=> alert (error.message))
+            .catch(error => alert(error.message))
     }
 
     const handleLogin = () => {
         auth
-        .signInWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log("Logged in with: ", user.email);
-        })
-        .catch( error=> alert (error.message))
+            .signInWithEmailAndPassword(email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log("Logged in with: ", user.email);
+            })
+            .catch(error => alert(error.message))
     }
 
- 
+
     return (
         <KeyboardAvoidingView style={styles(theme).container} behavior="padding">
+            <View style={{ flex: 1 }}>
+
+            </View>
             <View style={styles(theme).headerContainer}>
                 <Text style={styles(theme).header}>Sign In</Text>
             </View>
@@ -45,13 +48,16 @@ const LoginScreen = ({navigation}) => {
                 <Text style={styles(theme).label}>Password</Text>
                 <TextInput placeholder="Enter your password" value={password} onChangeText={text => setPassword(text)} style={styles(theme).input} secureTextEntry />
             </View>
-            <View style={styles(theme).buttonContainer}>
-                <TouchableOpacity onPress={handleLogin} style={[styles(theme).button, styles(theme).buttonOutline]} >
-                    <Text style={styles(theme).buttonOutlineText}>Login</Text>
+            <View>
+                <TouchableOpacity onPress={handleLogin} style={styles(theme).button} >
+                    <Text style={styles(theme).buttonText}>Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleSignUp} style={[styles(theme).button, styles(theme).buttonOutline]} >
-                    <Text style={styles(theme).buttonOutlineText}>Register</Text>
+                <TouchableOpacity onPress={() => navigation.navigate("Entry")}>
+                    <Text style={{ color: theme.colors.text, fontSize: 12, fontFamily: theme.font.light, textAlign: "center" }}>{"Don't have a GreySun Account?\nGet Started!"}</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={{ flex: 3 }}>
+
             </View>
         </KeyboardAvoidingView>
     )
@@ -66,7 +72,7 @@ const styles = theme => StyleSheet.create({
         alignItems: 'center',
         flex: 1,
     },
-    headerContainer: { 
+    headerContainer: {
     },
     header: {
         fontFamily: theme.font.regular,
@@ -93,23 +99,15 @@ const styles = theme => StyleSheet.create({
         marginLeft: "5%",
         color: theme.colors.primary,
     },
-    buttonContainer: {
-        width: "100%",
-        flexDirection: "row",
-        justifyContent: "space-around"
+    button: { 
+        backgroundColor: theme.colors.primary, 
+        paddingHorizontal: "25%", 
+        paddingVertical: 10, 
+        borderRadius: 5, 
+        marginVertical: 8 
     },
-    button: {
-        width: "40%",
-        padding: 12,
-    },
-    buttonOutline: {
-        borderRadius: 10,
-        borderColor: theme.colors.primary,
-        borderWidth: 1,
-        marginBottom: 20,
-    },
-    buttonOutlineText: {
-        color: theme.colors.primary,
+    buttonText: {
+        color: theme.colors.background,
         textAlign: "center"
     }
 })
