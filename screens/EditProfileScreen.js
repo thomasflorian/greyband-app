@@ -19,18 +19,18 @@ export default function EditProfileScreen({ navigation }) {
 
     useEffect(() => {
         setOptions([
-            { name: "firstname", changed: false, label: "First Name", value: userdata.profile.firstname, display: userdata.display.firstname, key: "1" },
-            { name: "lastname", changed: false, label: "Last Name", value: userdata.profile.lastname, display: userdata.display.lastname, key: "2" },
-            { name: "age", changed: false, label: "Age", value: userdata.profile.age, display: userdata.display.age, key: "3" },
-            { name: "hometown", changed: false, label: "Hometown", value: userdata.profile.hometown, display: userdata.display.hometown, key: "4" },
-            { name: "work", changed: false, label: "Work and Education", value: userdata.profile.work, display: userdata.display.work, key: "5" },
-            { name: "relationship", changed: false, label: "Relationship Status", value: userdata.profile.relationship, display: userdata.display.relationship, key: "6" },
-            { name: "pronouns", changed: false, label: "Pronouns", value: userdata.profile.pronouns, display: userdata.display.pronouns, key: "7" },
-            { name: "sign", changed: false, label: "Astrological Sign", value: userdata.profile.sign, display: userdata.display.sign, key: "8" },
-            { name: "interests", changed: false, label: "Current Interests", value: userdata.profile.interests, display: userdata.display.interests, key: "9" },
-            { name: "instagram", changed: false, label: "Instagram", value: userdata.profile.instagram, display: userdata.display.instagram, key: "10" },
-            { name: "snapchat", changed: false, label: "Snapchat", value: userdata.profile.snapchat, display: userdata.display.snapchat, key: "11" },
-            { name: "linkedin", changed: false, label: "LinkedIn", value: userdata.profile.linkedin, display: userdata.display.linkedin, key: "12" }])
+            { name: "firstname", changed: false, label: "First Name", value: userdata.profile.firstname || "", display: userdata.display.firstname || false, key: "1" },
+            { name: "lastname", changed: false, label: "Last Name", value: userdata.profile.lastname || "", display: userdata.display.lastname || false , key: "2" },
+            { name: "age", changed: false, label: "Age", value: userdata.profile.age || "", display: userdata.display.age || false, key: "3" },
+            { name: "hometown", changed: false, label: "Hometown", value: userdata.profile.hometown || "", display: userdata.display.hometown || false, key: "4" },
+            { name: "work", changed: false, label: "Work and Education", value: userdata.profile.work || "", display: userdata.display.work || false, key: "5" },
+            { name: "relationship", changed: false, label: "Relationship Status", value: userdata.profile.relationship || "", display: userdata.display.relationship || false, key: "6" },
+            { name: "pronouns", changed: false, label: "Pronouns", value: userdata.profile.pronouns || "", display: userdata.display.pronouns || false, key: "7" },
+            { name: "sign", changed: false, label: "Astrological Sign", value: userdata.profile.sign || "", display: userdata.display.sign || false, key: "8" },
+            { name: "interests", changed: false, label: "Current Interests", value: userdata.profile.interests || "", display: userdata.display.interests || false, key: "9" },
+            { name: "instagram", changed: false, label: "Instagram", value: userdata.profile.instagram || "", display: userdata.display.instagram || false, key: "10" },
+            { name: "snapchat", changed: false, label: "Snapchat", value: userdata.profile.snapchat || "", display: userdata.display.snapchat || false, key: "11" },
+            { name: "linkedin", changed: false, label: "LinkedIn", value: userdata.profile.linkedin || "", display: userdata.display.linkedin || false, key: "12" }])
     }, [userdata]);
 
     const handleValueChange = (newValue, key) => {
@@ -38,7 +38,7 @@ export default function EditProfileScreen({ navigation }) {
     };
 
     const handleDisplayToggle = (key) => {
-        setOptions((oldOptions) => (oldOptions.map((option) => option.key == key ? { ...option, display: !option.display, changed: true } : option)))
+        setOptions((oldOptions) => (oldOptions.map((option) => option.key == key && option.value ? { ...option, display: !option.display, changed: true } : option)))
     };
 
     const saveProfileChanges = () => {

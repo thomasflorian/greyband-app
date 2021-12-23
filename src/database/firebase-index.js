@@ -18,13 +18,35 @@ const firebaseConfig = {
 
 let app;
 if (firebase.apps.length === 0) {
-    app = firebase.initializeApp(firebaseConfig);
+  app = firebase.initializeApp(firebaseConfig);
 } else {
-    app = firebase.app()
+  app = firebase.app()
 }
 
 // Initialize Firebase
 const auth = firebase.auth()
 const db = firebase.firestore()
 
-export { auth, db };
+// Check if email already exits
+//check email already exist or not.
+
+function checkEmailExists(email) {
+  return auth.signInWithEmailAndPassword(email, '' + Math.random())
+    .then((response) => {
+      // FATAL ERROR
+    })
+    .catch((error) => {
+      if (error.code === 'auth/wrong-password') {
+        return "exists";
+      }
+      if (error.code === 'auth/user-not-found') {
+        return "doesn't exist";
+      }
+      if (error.code === 'auth/too-many-requests')  {
+        return "slow down";
+      }
+      return error.code;
+    })
+}
+
+export { auth, db, checkEmailExists };

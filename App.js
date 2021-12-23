@@ -52,13 +52,13 @@ export default function App() {
   };
 
   useEffect(() => {
-    let userdataUnsub = () => { };
+    let userdataUnsub = () => {};
     const authUnsub = auth.onAuthStateChanged(user => {
       if (user) {
         const uid = auth.currentUser.uid;
         const userRef = db.collection("users").doc(uid);
         userdataUnsub(); // Unsubscribe from previous profile.
-        userdataUnsub = userRef.onSnapshot((doc) => setUserdata(doc.data()));
+        userdataUnsub = userRef.onSnapshot((doc) => {setUserdata(doc.data())});
       } else {
         setUserdata(undefined);
       }
@@ -68,7 +68,6 @@ export default function App() {
       userdataUnsub();
     };
   }, []);
-
 
   if (userdata) {
     return (
