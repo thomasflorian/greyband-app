@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
+import Toast from 'react-native-toast-message';
 
 
 
@@ -11,11 +12,11 @@ function UsernameScreen({ navigation, route }) {
     const [username, setUsername] = useState('');
 
     const handleSubmit = () => {
+        // Add username checks (no special characters, doesn't start with a number, no consecutive decimal points, etc.)
         if (username.length >= 6) {
-            console.log(username);
-            navigation.navigate("Password", {username, ...route.params});
+            navigation.navigate("Password", { username, ...route.params });
         } else {
-            console.log("Username not long enough")
+            Toast.show({ type: "error", position: "bottom", text1: "Username must be at least 6 characters long!" })
         }
     }
 

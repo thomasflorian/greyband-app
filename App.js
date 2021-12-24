@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import Toast, { ErrorToast, BaseToast } from 'react-native-toast-message';
 import { useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -19,6 +20,7 @@ import EmailScreen from './screens/registration/EmailScreen';
 import UsernameScreen from './screens/registration/UsernameScreen';
 import PasswordScreen from './screens/registration/PasswordScreen';
 import { auth, db } from './src/database/firebase-index';
+import { Icon } from 'react-native-elements/dist/icons/Icon';
 
 
 export default function App() {
@@ -51,14 +53,38 @@ export default function App() {
     }
   };
 
+  const toastConfig = {
+    error: (props) => (
+      <ErrorToast
+        {...props}
+        style={{ borderLeftColor: '#DD0022', backgroundColor: '#DD0022', paddingTop: 0, alignItems: "center", paddingHorizontal: 20 }}
+        text1Style={{
+          fontSize: 15,
+          fontFamily: theme.font.bold,
+          color: "white",
+        }}
+        text2Style={{color:"white", fontFamily: theme.font.light}}
+        text1NumberOfLines={2}
+        renderLeadingIcon={() => (<Icon name='error-outline' type="materialicons" color={"white"} size={30} />)}
+      />
+    ),
+  }
+
   useEffect(() => {
-    let userdataUnsub = () => {};
+    let userdataUnsub = () => { };
     const authUnsub = auth.onAuthStateChanged(user => {
       if (user) {
         const uid = auth.currentUser.uid;
         const userRef = db.collection("users").doc(uid);
         userdataUnsub(); // Unsubscribe from previous profile.
-        userdataUnsub = userRef.onSnapshot((doc) => {setUserdata(doc.data())});
+        userdataUnsub = userRef.onSnapshot((doc) => {
+          const data = doc.data();
+          if (data && data.profile && data.display && data.blows && data.username) {
+            setUserdata(data);
+          } else {
+            auth.currentUser.delete();
+          }
+        });
       } else {
         setUserdata(undefined);
       }
@@ -69,43 +95,37 @@ export default function App() {
     };
   }, []);
 
-  if (userdata) {
-    return (
-      !fontsLoaded ? <AppLoading /> :
-        <SafeAreaView style={styles(theme).container}>
-          <NavigationContainer theme={theme}>
-            <UserdataContext.Provider value={userdata}>
-              <Menubar />
-              <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false, gestureEnabled: false, animation: "none" }} >
-                <Stack.Screen name="Search" component={SearchScreen} />
-                <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="Party" component={PartyScreen} />
-                <Stack.Screen name="Profile" component={ProfileScreen} />
-                <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-                <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
-              </Stack.Navigator>
-            </UserdataContext.Provider>
-          </NavigationContainer>
-          <StatusBar style="auto" />
-        </SafeAreaView>
-    );
-  } else {
-    return (
-      !fontsLoaded ? <AppLoading /> :
-        <SafeAreaView style={styles(theme).container}>
-          <NavigationContainer theme={theme}>
+  return (
+    !fontsLoaded ? <AppLoading /> :
+      <SafeAreaView style={styles(theme).container}>
+        {userdata && <NavigationContainer theme={theme}>
+          <UserdataContext.Provider value={userdata}>
             <Menubar />
-            <Stack.Navigator initialRouteName="Entry" screenOptions={{ headerShown: false, gestureEnabled: false, animation: "none" }} >
-              <Stack.Screen name="Entry" component={EntryScreen} />
-              <Stack.Screen name="Login" component={LoginScreen} />
-              <Stack.Screen name="Email" component={EmailScreen} />
-              <Stack.Screen name="Username" component={UsernameScreen} />
-              <Stack.Screen name="Password" component={PasswordScreen} />
+            <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false, gestureEnabled: false, animation: "none" }} >
+              <Stack.Screen name="Search" component={SearchScreen} />
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="Party" component={PartyScreen} />
+              <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+              <Stack.Screen name="CreateParty" component={CreatePartyScreen} />
             </Stack.Navigator>
-          </NavigationContainer>
-        </SafeAreaView>
-    )
-  }
+          </UserdataContext.Provider>
+        </NavigationContainer>}
+
+        {!userdata && <NavigationContainer theme={theme}>
+          <Menubar />
+          <Stack.Navigator initialRouteName="Entry" screenOptions={{ headerShown: false, gestureEnabled: false, animation: "none" }} >
+            <Stack.Screen name="Entry" component={EntryScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Email" component={EmailScreen} />
+            <Stack.Screen name="Username" component={UsernameScreen} />
+            <Stack.Screen name="Password" component={PasswordScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>}
+        <Toast config={toastConfig} />
+        <StatusBar style="auto" />
+      </SafeAreaView>
+  );
 }
 
 const styles = theme => StyleSheet.create({

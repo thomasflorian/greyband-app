@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpaci
 import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import { auth, db } from '../../src/database/firebase-index'
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 
 
@@ -14,23 +15,21 @@ function PasswordScreen({ navigation, route }) {
 
     const handleSignUp = async () => {
         const { email, username } = route.params;
-
+        
         if (password === confirmPassword) {
-            await auth
+            if (password.length >= 6){
+                await auth
                 .createUserWithEmailAndPassword(email, password)
                 .then(async (userCredentials) => {
                     const user = userCredentials.user;
-                    await db.collection("users").doc(user.uid).set({ blows: [], username, accountCreated: new Date(), profile: {}, display: {}, favorites: [] })
-                        .then(() => {
-                            console.log("Success!");
-                        })
-                        .catch(() => {
-                            console.log("Fail!");
-                        })
+                    await db.collection("users").doc(user.uid).set({ blows: [], username, profile: {}, display: {}, favorites: [] })
                 })
-                .catch(error => alert(error.message))
+                .catch(error => Toast.show({type: "error", position: "bottom", text1: "Account Creation Failed!", text2: "Check your network connection and try again."}))
+            } else {
+                Toast.show({type: "error", position: "bottom", text1: "Passwords must be at least 6 characters long!"})
+            }
         } else {
-            console.log("Passwords do not match")
+            Toast.show({type: "error", position: "bottom", text1: "Passwords do not match!"})
         }
     }
 

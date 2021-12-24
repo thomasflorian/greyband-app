@@ -1,12 +1,14 @@
 // Import Dependencies 
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import * as ImagePicker from 'expo-image-picker';
 // Import Components
 import Toolbar from '../components/Toolbar';
 import { UserdataContext } from '../context/UserdataContext';
-import { auth, db } from '../src/database/firebase-index';
+import { auth, db, storage } from '../src/database/firebase-index';
 
 
 export default function EditProfileScreen({ navigation }) {
@@ -15,12 +17,54 @@ export default function EditProfileScreen({ navigation }) {
     const theme = useTheme();
     const userdata = useContext(UserdataContext);
     const [flatlistRef, setFlatlistRef] = useState(undefined);
+    const [image, setImage] = useState(userdata.profile.picture);
+    const [imageLoading, setImageLoading] = useState(false);
     const [options, setOptions] = useState([]);
+
+    // TODO: Handle all possible errors
+    const addImage = async () => {
+        const uid = auth.currentUser.uid;
+        let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, allowsEditing: true, aspect: [1, 1], quality: 0.1 });
+        setImageLoading(true);
+        const response = await fetch(result.uri);
+        const blob = await response.blob();
+        const reference = storage.ref().child(`profilepictures/${uid}.png`);
+        await reference.put(blob);
+
+        // Get the download URL
+        reference.getDownloadURL()
+            .then(async (url) => {
+                await saveProfileChanges();
+                db.collection("users").doc(uid).set({profile: {picture: url}}, {merge:true}).then(() => {
+                    setImage(url);
+                    setImageLoading(false);
+                }).catch(error => Toast.show({ type: "error", position: "bottom", text1: "Network Connection Error!", text2: "Check your connection and try again." }));
+            })
+            .catch((error) => {
+                // A full list of error codes is available at
+                // https://firebase.google.com/docs/storage/web/handle-errors
+                switch (error.code) {
+                    case 'storage/object-not-found':
+                        Toast.show({ type: "error", position: "bottom", text1: "Error uploading image!", text2: "Check your connection and try again." });
+                        break;
+                    case 'storage/unauthorized':
+                        Toast.show({ type: "error", position: "bottom", text1: "Unauthorized User!" });
+                        break;
+                    case 'storage/canceled':
+                        Toast.show({ type: "error", position: "bottom", text1: "Upload Cancelled!" });
+                        break;
+                    default:
+                        Toast.show({ type: "error", position: "bottom", text1: "Unknown Error Occurred!" });
+                        break;
+                }
+            });
+    }
+
 
     useEffect(() => {
         setOptions([
             { name: "firstname", changed: false, label: "First Name", value: userdata.profile.firstname || "", display: userdata.display.firstname || false, key: "1" },
-            { name: "lastname", changed: false, label: "Last Name", value: userdata.profile.lastname || "", display: userdata.display.lastname || false , key: "2" },
+            { name: "lastname", changed: false, label: "Last Name", value: userdata.profile.lastname || "", display: userdata.display.lastname || false, key: "2" },
             { name: "age", changed: false, label: "Age", value: userdata.profile.age || "", display: userdata.display.age || false, key: "3" },
             { name: "hometown", changed: false, label: "Hometown", value: userdata.profile.hometown || "", display: userdata.display.hometown || false, key: "4" },
             { name: "work", changed: false, label: "Work and Education", value: userdata.profile.work || "", display: userdata.display.work || false, key: "5" },
@@ -41,7 +85,7 @@ export default function EditProfileScreen({ navigation }) {
         setOptions((oldOptions) => (oldOptions.map((option) => option.key == key && option.value ? { ...option, display: !option.display, changed: true } : option)))
     };
 
-    const saveProfileChanges = () => {
+    const saveProfileChanges = async () => {
         let newProfile = { ...userdata.profile }
         let newDisplay = { ...userdata.display }
         const newOptions = options.filter((item) => item.changed)
@@ -52,9 +96,8 @@ export default function EditProfileScreen({ navigation }) {
             });
             const uid = auth.currentUser.uid;
             // TODO: Catch errors due to internet connection etc.
-            db.collection("users").doc(uid).set({ profile: newProfile, display: newDisplay }, { merge: true });
+            db.collection("users").doc(uid).set({ profile: newProfile, display: newDisplay }, { merge: true }).catch(error => Toast.show({ type: "error", position: "bottom", text1: "Network Connection Error!", text2: "Check your connection and try again." }));
         }
-        navigation.navigate("Profile");
     };
 
     const renderItem = ({ item: { label, value, display, key }, index }) => {
@@ -77,14 +120,14 @@ export default function EditProfileScreen({ navigation }) {
             <View style={styles(theme).box}>
                 <View style={{ width: "100%", flex: 1 }}>
                     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginVertical: 10 }}>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={saveProfileChanges}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 1 }} onPress={() => {saveProfileChanges(); navigation.navigate("Profile");}}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
                         <Text style={{ color: theme.colors.text, fontSize: 24, flex: 4, textAlign: "center", fontFamily: theme.font.light }}>Edit Profile</Text>
                         <View style={{ flex: 1 }}></View>
                     </View>
                 </View>
                 <View style={{ width: "100%", flex: 2, marginBottom: 20, alignItems: "center" }}>
-                    <TouchableOpacity style={{ width: "30%", maxWidth: 150 }}>
-                        <Image style={styles(theme).picture} source={{ uri: userdata.profile.picture }}></Image>
+                    <TouchableOpacity onPress={addImage} style={{ width: "30%", maxWidth: 150 }}>
+                        {imageLoading ? <ActivityIndicator size={"large"} color={theme.colors.primary} /> : <Image style={styles(theme).picture} source={{ uri: image }} />}
                     </TouchableOpacity>
                 </View>
                 <View style={{ width: "100%", flex: 10 }}>

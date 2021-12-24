@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { auth } from '../src/database/firebase-index'
 import { useTheme } from '@react-navigation/native';
-
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 
 function LoginScreen({ navigation }) {
@@ -19,7 +19,22 @@ function LoginScreen({ navigation }) {
                 const user = userCredentials.user;
                 console.log("Logged in with: ", user.email);
             })
-            .catch(error => alert(error.message))
+            .catch(error => {
+                if (error.code == "auth/invalid-email"){
+                    Toast.show({ type: "error", position: "bottom", text1: "Invalid Email!" })
+                } else if (error.code == "auth/wrong-password"){
+                    Toast.show({ type: "error", position: "bottom", text1: "Incorrect Email or Password!" })
+                } else if (error.code == "auth/too-many-requests"){
+                    Toast.show({ type: "error", position: "bottom", text1: "Too Many Requests. Slow Down!" })
+                } else if (error.code == "auth/user-disabled"){
+                    Toast.show({ type: "error", position: "bottom", text1: "Account Disabled!" })
+                } else if (error.code == "auth/user-not-found"){
+                    Toast.show({ type: "error", position: "bottom", text1: "Email is not registered with an account!", text2: "Create an account instead?", onPress: () => navigation.navigate("Email") })
+                } else {
+                    Toast.show({ type: "error", position: "bottom", text1: error.code })
+                }
+
+            })
     }
 
 

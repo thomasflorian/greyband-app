@@ -24,8 +24,9 @@ if (firebase.apps.length === 0) {
 }
 
 // Initialize Firebase
-const auth = firebase.auth()
-const db = firebase.firestore()
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage()
 
 // Check if email already exits
 //check email already exist or not.
@@ -49,4 +50,4 @@ function checkEmailExists(email) {
     })
 }
 
-export { auth, db, checkEmailExists };
+export { auth, db, storage, checkEmailExists };

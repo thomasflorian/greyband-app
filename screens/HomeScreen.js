@@ -62,9 +62,11 @@ export default function HomeScreen({ navigation }) {
             </View>
             <View style={styles(theme).targetTextContainer}>
                 <Text style={styles(theme).targetState}>{targetState}</Text>
-                {targetState == "Incapacitated" && <Image style={{ width: width, height: 650 * width / 1730, marginTop: 20 }} source={require("../assets/images/incapacitated.png")} />}
-                {targetState == "Drunk" && <Image style={{ width: width, height: 650 * width / 1730, marginTop: 20 }} source={require("../assets/images/drunk.png")} />}
-                {targetState == "Tipsy" && <Image style={{ width: width, height: 650 * width / 1730, marginTop: 20 }} source={require("../assets/images/tipsy.png")} />}
+                <View style={{width:"100%", alignItems: "center"}}>
+                    <Image  style={{display: targetState == "Incapacitated" ? "flex":"none", width: width, height: 650 * width / 1730, marginTop: 20, position: "absolute" }} source={require("../assets/images/incapacitated.png")} />
+                    <Image style={{display: targetState == "Drunk" ? "flex":"none", width: width, height: 650 * width / 1730, marginTop: 20, position: "absolute" }} source={require("../assets/images/drunk.png")} />
+                    <Image style={{display: targetState == "Tipsy" ? "flex":"none", width: width, height: 650 * width / 1730, marginTop: 20, position: "absolute" }} source={require("../assets/images/tipsy.png")} />
+                </View>
             </View>
             <Toolbar navigation={navigation} />
         </View>

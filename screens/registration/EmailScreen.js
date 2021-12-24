@@ -4,6 +4,8 @@ import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import { validate } from 'validate.js';
 import { checkEmailExists } from '../../src/database/firebase-index'
+import Toast from 'react-native-toast-message';
+
 
 
 
@@ -14,7 +16,6 @@ function EmailScreen({ navigation, route }) {
     const [confirmEmail, setConfirmEmail] = useState('');
 
     const handleSubmit = async () => {
-
         // check if emails match
         if (email.toLowerCase() === confirmEmail.toLowerCase()) {
             const error = validate({ email }, { email: { email: true, presence: { allowEmpty: false, message: "^Please enter an email address" } } })
@@ -25,18 +26,17 @@ function EmailScreen({ navigation, route }) {
                 if (emailCheck === "doesn't exist") {
                     navigation.navigate("Username", {email, ...route.params});
                 } else if (emailCheck === "exists") {
-
-                    console.log("Email already exists");
+                    Toast.show({type: "error", position: "bottom", text1: "Email already exists!"})
                 } else if (emailCheck === "slow down") {
-                    console.log("Too many requests, slow down");
+                    Toast.show({type: "error", position: "bottom", text1: "Too many Requests. Slow down!"})
                 } else {
                     console.log(emailCheck)
                 }
             } else {
-                console.log("Email is not valid");
+                Toast.show({type: "error", position: "bottom", text1: "Email is not valid!"})
             }
         } else {
-            console.log("Emails do not match")
+            Toast.show({type: "error", position: "bottom", text1: "Emails do not match!"})
         }
     };
 
