@@ -71,7 +71,6 @@ export default class ProfileFactory{
     addPassword(password) {
         if(this.newProfile != null) {
             this.newProfile.setPassword(password);
-            return true;
         } else {
             throw new Error('Must create profile before adding password to it');
         }
@@ -81,7 +80,6 @@ export default class ProfileFactory{
         if(this.newProfile != null) {
             this.newProfile.setFirstname(firstname);
             this.newProfile.setLastname(lastname);
-            return true;
         } else {
             throw new Error('Must create profile before adding name to it');
         }
