@@ -1,23 +1,23 @@
-const { default: Profile } = require("./Profile");
+import Profile from "./Profile";
+
 const { db } = require("../database/firebase-index");
 
-class ProfileFactory{
+export default class ProfileFactory{
     constructor() {
         this.newProfile = null
     }
 
     startProfileCreation(){
-        this.newProfile = Profile()
+        this.newProfile = new Profile()
     }
 
 
     addUsername(username) {
         if(this.newProfile != null) {
-            if(_isViableUsername(username)){
+            if(isViableUsername(username)){
                 this.newProfile.setUsername(username);
-                return true;
             } else {
-                return false;
+                throw "An account already exists with this username"
             }
         } else {
             throw new Error('Must create profile before adding username to it');
@@ -25,7 +25,7 @@ class ProfileFactory{
         
     }
 
-    _isViableUsername(username){
+    isViableUsername(username){
         var usersRef = db.collection("users");
         const usernameQuery = usersRef.where("username", "==", username);
         usernameQuery.get().then((querySnapshot) => {
@@ -42,11 +42,10 @@ class ProfileFactory{
 
     addEmail(email) {
         if(this.newProfile != null) {
-            if(_isViableEmail(email)){
+            if(isViableEmail(email)){
                 this.newProfile.setEmail(email);
-                return true;
             } else {
-                return false;
+                throw "An account already exists with this email"
             }
         } else {
             throw new Error('Must create profile before adding email to it');
@@ -54,7 +53,7 @@ class ProfileFactory{
         
     }
 
-    _isViableEmail(email){
+    isViableEmail(email){
         var usersRef = db.collection("users");
         const usernameQuery = usersRef.where("email", "==", email);
         usernameQuery.get().then((querySnapshot) => {
@@ -103,5 +102,3 @@ class ProfileFactory{
 
 
 }
-
-export default { ProfileFactory }
