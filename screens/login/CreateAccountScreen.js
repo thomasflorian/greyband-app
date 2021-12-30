@@ -87,13 +87,10 @@ const CreateAccountScreen = ( {route, navigation }) => {
     const startAccountCreation = (email, password) => {
         profileFactory.startProfileCreation();
         try {
-            if(profileFactory.addEmail(email)){
-
-            } else {
-                Alert.alert("Username already in use")
-            }
+            profileFactory.addEmail(email);
+            profileFactory.addPassword(password);
         } catch (error) {
-            
+            Alert.alert(error)
         }
         
     }
