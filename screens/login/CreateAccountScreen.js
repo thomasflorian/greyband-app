@@ -85,12 +85,18 @@ const CreateAccountScreen = ( {route, navigation }) => {
     );
 
     const startAccountCreation = (email, password) => {
+        console.log("A")
         profileFactory.startProfileCreation();
+        console.log("B")
         try {
             profileFactory.addEmail(email);
+            console.log("C")
             profileFactory.addPassword(password);
+            console.log("D")
+            return true;
         } catch (error) {
             Alert.alert(error)
+            return false;
         }
         
     }
@@ -133,11 +139,12 @@ const CreateAccountScreen = ( {route, navigation }) => {
                                 } else if (!validatePass(password)) {
                                     invalidPassAlert();
                                 } else {
-                                    if(startAccountCreation(email, password))
-                                    navigation.navigate("Legal", {
-                                        email: email,
-                                        password: password,
-                                    })
+                                    if(startAccountCreation(email, password)){
+                                        navigation.navigate("Legal", {
+                                            profileFactory: {profileFactory}
+                                        })
+                                    }
+                                    
                                 }}}
                             color={theme.colors.background}
                             title="Continue"
