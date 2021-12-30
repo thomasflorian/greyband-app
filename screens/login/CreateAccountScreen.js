@@ -10,10 +10,11 @@ const WIDTH = Dimensions.get('window').width * .85
 
 
 
+
 const CreateAccountScreen = ( {route, navigation }) => {
-    const { profileFactory } = route.params;
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const { profileFactory } = route.params;
 
     // Get theme variables
     const theme = useTheme()
@@ -82,6 +83,20 @@ const CreateAccountScreen = ( {route, navigation }) => {
         { text: "OK", onPress: () => console.log("OK Pressed") }
       ]
     );
+
+    const startAccountCreation = (email, password) => {
+        profileFactory.startProfileCreation();
+        try {
+            if(profileFactory.addEmail(email)){
+
+            } else {
+                Alert.alert("Username already in use")
+            }
+        } catch (error) {
+            
+        }
+        
+    }
  
     
 
@@ -121,6 +136,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
                                 } else if (!validatePass(password)) {
                                     invalidPassAlert();
                                 } else {
+                                    if(startAccountCreation(email, password))
                                     navigation.navigate("Legal", {
                                         email: email,
                                         password: password,

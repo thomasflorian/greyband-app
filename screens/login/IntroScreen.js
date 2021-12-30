@@ -23,7 +23,7 @@ const IntroScreen = ( {navigation }) => {
             <Text style={styles(theme).shiny_text} >For Nights{"\n"}Worth Remembering</Text>
             <View style={styles(theme).button_container }>
                 <Button 
-                    onPress={() => navigation.navigate("CreateAccount", {profileFactory = ProfileFactory()})}
+                    onPress={() => navigation.navigate("CreateAccount", {profileFactory: new ProfileFactory()})}
                     color={theme.colors.background}
                     title="Get Started"
                 />
