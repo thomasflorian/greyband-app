@@ -85,7 +85,7 @@ const theme = {
             </>
           ) : (
             <>
-            <LoggedOutStack.Navigator initialRouteName="Legal" screenOptions={{headerShown: false}}>
+            <LoggedOutStack.Navigator initialRouteName="Intro" screenOptions={{headerShown: false}}>
               <LoggedOutStack.Screen name="Intro" component={IntroScreen} />
               <LoggedOutStack.Screen name="Login" component={LoginScreen} />
               <LoggedOutStack.Screen name="CreateAccount" component={CreateAccountScreen} />
