@@ -1,6 +1,6 @@
-class Profile {
+export default class Profile {
 
-    constructor(){
+     Profile(){
         this.username = ""
         this.password = ""
         this.email = ""
@@ -130,5 +130,3 @@ class Profile {
 
 
 }
-
-export default { Profile }
