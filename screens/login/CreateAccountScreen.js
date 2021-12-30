@@ -9,7 +9,7 @@ const WIDTH = Dimensions.get('window').width * .85
 
 
 
-const IntroScreen = ( {route, navigation }) => {
+const CreateAccountScreen = ( {route, navigation }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -141,7 +141,7 @@ const IntroScreen = ( {route, navigation }) => {
     
 }
 
-export default IntroScreen
+export default CreateAccountScreen
 
 
 
