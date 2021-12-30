@@ -3,6 +3,7 @@ class Profile {
     constructor(){
         this.username = ""
         this.password = ""
+        this.email = ""
         this.firstname = ""
         this.lastname = ""
         this.age = 0
@@ -24,6 +25,9 @@ class Profile {
     }
     getPassword() {
         return this.password
+    }
+    getEmail() {
+        return this.email
     }
     getFirstname() {
         return this.firstname
@@ -75,6 +79,9 @@ class Profile {
     }
     setPassword(password) {
         this.password = password
+    }
+    setEmail(email) {
+        this.email = email
     }
     setFirstname(firstname) {
         this.firstname = firstname
