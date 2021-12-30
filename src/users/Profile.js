@@ -1,4 +1,5 @@
 class Profile {
+
     constructor(){
         this.username = ""
         this.password = ""
@@ -17,6 +18,56 @@ class Profile {
         this.snapchat = ""
         this.linkedIn = ""
     }
+
+    getUsername() {
+        return this.username
+    }
+    getPassword() {
+        return this.password
+    }
+    getFirstname() {
+        return this.firstname
+    }
+    getLastname() {
+        return this.lastname
+    }
+    getAge() {
+        return this.age
+    }
+    getHometown() {
+        return this.hometown
+    }
+    getWorkAndEducation() {
+        return this.workAndEducation
+    }
+    getRelationshipStatus() {
+        return this.relationshipStatus
+    }
+    getPronouns() {
+        return this.pronouns
+    }
+    getSign() {
+        return this.sign
+    }
+    getCurrentInterests() {
+        return this.currentInterests
+    }
+    getBacHistory() {
+        return this.bacHistory
+    }
+    getStarredProfiles() {
+        return this.starredProfiles
+    }
+    getInstagram() {
+        return this.instagram
+    }
+    getSnapchat() {
+        return this.snapchat
+    }
+    getLinkedIn() {
+        return this.linkedIn
+    }
+
 
 }
 
