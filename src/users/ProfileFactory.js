@@ -26,17 +26,6 @@ class ProfileFactory{
         
     }
 
-    addName(firstname, lastname) {
-        if(this.newProfile != null) {
-            this.newProfile.setFirstname(firstname);
-            this.newProfile.setLastname(lastname);
-            return true;
-        } else {
-            throw new Error('Must create profile before adding contents to it');
-        }
-        
-    }
-
     #isViableUsername(username){
         var usersRef = db.collection("users");
         const usernameQuery = usersRef.where("username", "==", username);
@@ -51,6 +40,29 @@ class ProfileFactory{
             return false
         })
     }
+
+    addName(firstname, lastname) {
+        if(this.newProfile != null) {
+            this.newProfile.setFirstname(firstname);
+            this.newProfile.setLastname(lastname);
+            return true;
+        } else {
+            throw new Error('Must create profile before adding contents to it');
+        }
+        
+    }
+
+    getNewProfile(){
+        if(this.newProfile != null) {
+            const newProfile = this.newProfile;
+            this.newProfile = null;
+            return newProfile;
+        } else {
+            throw new Error('Must create profile before getting it');
+        }
+    }
+
+    
 
 
 }
