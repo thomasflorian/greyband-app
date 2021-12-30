@@ -40,32 +40,61 @@ export default class ProfileFactory{
         })
     }
 
-    addEmail(email) {
+    addEmail = async (email) => {
+        console.log("1")
         if(this.newProfile != null) {
-            if(isViableEmail(email)){
-                this.newProfile.setEmail(email);
-            } else {
-                throw "An account already exists with this email"
-            }
+            console.log("2")
+            this.isViableEmail(email).then(value => {
+                if (value) {
+                    console.log("3")
+                    this.newProfile.setEmail(email);
+                    console.log("4")
+                } else {
+                    throw "An account already exists with this email"
+                }
+            })
+
+
+            // if(this.isViableEmail(email)){
+            //     console.log("3")
+            //     this.newProfile.setEmail(email);
+            //     console.log("4")
+            // } else {
+            //     throw "An account already exists with this email"
+            // }
         } else {
             throw new Error('Must create profile before adding email to it');
         }
         
     }
 
-    isViableEmail(email){
+    isViableEmail(email) {
+        console.log(email);
+        console.log("q")
         var usersRef = db.collection("users");
+        console.log("w")
         const usernameQuery = usersRef.where("email", "==", email);
+        console.log("e")
         usernameQuery.get().then((querySnapshot) => {
-            if(querySnapshot.exists) {
-                return false
-            } else {
-                return true
-            }
+            console.log("r")
+            return new Promise((resolve) => {
+                querySnapshot.exists ? resolve(true) : resolve(false)
+            })
+            // if(querySnapshot.exists) {
+            //     console.log("Document data:", doc.data());
+            //     return false
+            // } else {
+                
+            //     return true
+                
+            // }
         }).catch((error) => {
             console.log("Error getting username in usernameExists check: ", error);
             return false
         })
+        console.log("t")
+        
+
     }
 
     addPassword(password) {
