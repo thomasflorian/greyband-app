@@ -4,6 +4,7 @@ import { useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bo
 import AppLoading from 'expo-app-loading';
 import { useTheme } from '@react-navigation/native';
 import CreateAccountScreen from './CreateAccountScreen';
+import ProfileFactory from '../../src/users/ProfileFactory';
 
 const LOGO_PATH = '../../assets/images/logo_with_words.png'
 const WIDTH = Dimensions.get('window').width * .85
@@ -22,7 +23,7 @@ const IntroScreen = ( {navigation }) => {
             <Text style={styles(theme).shiny_text} >For Nights{"\n"}Worth Remembering</Text>
             <View style={styles(theme).button_container }>
                 <Button 
-                    onPress={() => navigation.navigate("CreateAccount")}
+                    onPress={() => navigation.navigate("CreateAccount", {profileFactory = ProfileFactory()})}
                     color={theme.colors.background}
                     title="Get Started"
                 />

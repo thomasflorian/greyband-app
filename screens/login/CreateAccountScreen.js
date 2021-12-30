@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, But
 import { useTheme } from '@react-navigation/native';
 import { _ScrollView } from 'react-native';
 import { db, auth } from '../../src/database/firebase-index';
+import ProfileFactory from '../../src/users/ProfileFactory';
 
 
 const WIDTH = Dimensions.get('window').width * .85
@@ -10,6 +11,7 @@ const WIDTH = Dimensions.get('window').width * .85
 
 
 const CreateAccountScreen = ( {route, navigation }) => {
+    const { profileFactory } = route.params;
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
