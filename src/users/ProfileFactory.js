@@ -13,7 +13,7 @@ class ProfileFactory{
 
     addUsername(username) {
         if(this.newProfile != null) {
-            if(this.#isViableUsername(username)){
+            if(_isViableUsername(username)){
                 this.newProfile.setUsername(username);
                 return true;
             } else {
@@ -25,7 +25,7 @@ class ProfileFactory{
         
     }
 
-    #isViableUsername(username){
+    _isViableUsername(username){
         var usersRef = db.collection("users");
         const usernameQuery = usersRef.where("username", "==", username);
         usernameQuery.get().then((querySnapshot) => {
@@ -42,7 +42,7 @@ class ProfileFactory{
 
     addEmail(email) {
         if(this.newProfile != null) {
-            if(this.#isViableEmail(email)){
+            if(_isViableEmail(email)){
                 this.newProfile.setEmail(email);
                 return true;
             } else {
@@ -54,7 +54,7 @@ class ProfileFactory{
         
     }
 
-    #isViableEmail(email){
+    _isViableEmail(email){
         var usersRef = db.collection("users");
         const usernameQuery = usersRef.where("email", "==", email);
         usernameQuery.get().then((querySnapshot) => {
