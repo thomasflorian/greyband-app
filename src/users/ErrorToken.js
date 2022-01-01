@@ -1,11 +1,9 @@
 export default class ErrorToken {
-    constructor(message){
-        this.passed = false
+    
+
+    constructor(message="NO ERRORS"){
+        this.passed = message === "NO ERRORS"
         this.message = message
     }
 
-    constructor(){
-        this.passed = true
-        this.message = "no errors"
-    }
 }
