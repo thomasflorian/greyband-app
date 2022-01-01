@@ -25,7 +25,7 @@ export default class ProfileFactory{
         
     }
 
-    isViableUsername(username){
+    _isViableUsername(username){
         var usersRef = db.collection("users");
         const usernameQuery = usersRef.where("username", "==", username);
         usernameQuery.get().then((querySnapshot) => {
@@ -44,7 +44,7 @@ export default class ProfileFactory{
         console.log("1")
         if(this.newProfile != null) {
             console.log("2")
-            this.isViableEmail(email).then(value => {
+            this._isViableEmail(email).then(value => {
                 if (value) {
                     console.log("3")
                     this.newProfile.setEmail(email);
@@ -68,33 +68,30 @@ export default class ProfileFactory{
         
     }
 
-    isViableEmail(email) {
-        console.log(email);
-        console.log("q")
-        var usersRef = db.collection("users");
-        console.log("w")
-        const usernameQuery = usersRef.where("email", "==", email);
-        console.log("e")
-        usernameQuery.get().then((querySnapshot) => {
-            console.log("r")
-            return new Promise((resolve) => {
-                querySnapshot.exists ? resolve(true) : resolve(false)
-            })
-            // if(querySnapshot.exists) {
-            //     console.log("Document data:", doc.data());
-            //     return false
-            // } else {
-                
-            //     return true
-                
-            // }
-        }).catch((error) => {
-            console.log("Error getting username in usernameExists check: ", error);
-            return false
-        })
-        console.log("t")
+    _isViableEmail(email) {
+        try {
+            this._isViableEmailFormat(email);
+
+
+        } catch {
+
+        }
+
+        console.log("t");
         
 
+    }
+
+    _isViableEmailFormat(email){
+        let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (emailString.match(mailFormat)) {
+            return true;
+        }
+        throw new Error("Please input a valid email");
+    }
+
+    _isAvailableEmail(email){
+        
     }
 
     addPassword(password) {
@@ -115,6 +112,14 @@ export default class ProfileFactory{
         
     }
 
+    _validateEmail(emailString) {
+        const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (emailString.match(mailFormat)) {
+            return true;
+        }
+        return false;
+    }
+
     getNewProfile(){
         if(this.newProfile != null) {
             const newProfile = this.newProfile;
@@ -124,6 +129,8 @@ export default class ProfileFactory{
             throw new Error('Must create profile before getting it');
         }
     }
+
+
 
     
 

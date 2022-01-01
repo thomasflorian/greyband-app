@@ -54,13 +54,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
         
     // }
 
-    const validateEmail = (emailString) => {
-        const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (emailString.match(mailFormat)) {
-            return true;
-        }
-        return false;
-    }
+    
 
     const invalidEmailAlert = () =>
     Alert.alert(
