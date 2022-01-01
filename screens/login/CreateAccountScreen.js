@@ -19,43 +19,6 @@ const CreateAccountScreen = ( {route, navigation }) => {
     // Get theme variables
     const theme = useTheme()
 
-    
-    
-    // const handleSignUp = () => {
-    //     auth
-    //         .createUserWithEmailAndPassword(email, password)
-    //         .then(userCredentials => {
-    //             const user = userCredentials.user;
-    //             console.log("Registered with:", user.email);
-    //         })
-    //         .then(() => {
-    //             const user = auth.currentUser;
-    //             const uid = user.uid;
-    //             db
-    //                 .collection("pre_users").doc(uid).set({
-    //                 })
-    //                 .then(() => {
-    //                     console.log("Document successfully written!");
-    //                 })
-    //                 .catch((error) => {
-    //                     console.error("Error writing document", error);
-
-    //                     user.delete().then(() => {
-    //                         console.log("User deleted because of doc write error")
-    //                         // User deleted.
-    //                       }).catch((error) => {
-    //                         console.log("Failed to delete user after doc write error")
-    //                         // An error ocurred
-    //                         // ...
-    //                       });
-    //                 });
-    //         })
-    //         .catch( error=> alert (error.message))
-        
-    // }
-
-    
-
     const invalidEmailAlert = () =>
     Alert.alert(
       "Invalid Email",
@@ -78,7 +41,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
       ]
     );
 
-    const startAccountCreation = (email, password) => {
+    const startAccountCreation = () => {
         console.log("A")
         profileFactory.startProfileCreation();
         console.log("B")
@@ -128,18 +91,12 @@ const CreateAccountScreen = ( {route, navigation }) => {
                     <View style={styles(theme).button_container }>
                         <Button 
                             onPress={() => {
-                                if(!validateEmail(email)){
-                                    invalidEmailAlert();
-                                } else if (!validatePass(password)) {
-                                    invalidPassAlert();
-                                } else {
-                                    if(startAccountCreation(email, password)){
-                                        navigation.navigate("Legal", {
-                                            profileFactory: {profileFactory}
-                                        })
-                                    }
+                                try {
+                                    startAccountCreation()
+                                } catch(error) {
                                     
-                                }}}
+                                }
+                            }}
                             color={theme.colors.background}
                             title="Continue"
                         />
