@@ -76,8 +76,8 @@ export default class ProfileFactory{
         throw new Error("Please input a valid email");
     }
 
-    _checkEmailAvailability(email) {
-        auth.signInWithEmailAndPassword(email, "fail")
+    async _checkEmailAvailability(email) {
+        await auth.signInWithEmailAndPassword(email, "fail")
           .then((response) => {
             throw new Error("Somehow Logged in with invalid pass");
           })
