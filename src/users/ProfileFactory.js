@@ -1,4 +1,5 @@
 import Profile from "./Profile";
+import { auth } from "../database/firebase-index";
 
 const { db } = require("../database/firebase-index");
 
@@ -43,38 +44,23 @@ export default class ProfileFactory{
     addEmail = async (email) => {
         console.log("1")
         if(this.newProfile != null) {
-            console.log("2")
-            this._isViableEmail(email).then(value => {
-                if (value) {
-                    console.log("3")
-                    this.newProfile.setEmail(email);
-                    console.log("4")
-                } else {
-                    throw "An account already exists with this email"
-                }
-            })
-
-
-            // if(this.isViableEmail(email)){
-            //     console.log("3")
-            //     this.newProfile.setEmail(email);
-            //     console.log("4")
-            // } else {
-            //     throw "An account already exists with this email"
-            // }
+            try {
+                this._checkEmailViability(email)
+            } catch (error) {
+                throw error
+            }
         } else {
             throw new Error('Must create profile before adding email to it');
         }
         
     }
 
-    _isViableEmail(email) {
+    _checkEmailViability(email) {
         try {
-            this._isViableEmailFormat(email);
-
-
-        } catch {
-
+            this._checkEmailFormat(email);
+            this._checkEmailAvailability(email);
+        } catch(error) {
+            throw error
         }
 
         console.log("t");
@@ -82,7 +68,7 @@ export default class ProfileFactory{
 
     }
 
-    _isViableEmailFormat(email){
+    _checkEmailFormat(email){
         let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (emailString.match(mailFormat)) {
             return true;
@@ -90,9 +76,24 @@ export default class ProfileFactory{
         throw new Error("Please input a valid email");
     }
 
-    _isAvailableEmail(email){
-        
-    }
+    _checkEmailAvailability(email) {
+        auth.signInWithEmailAndPassword(email, "fail")
+          .then((response) => {
+            throw new Error("Somehow Logged in with invalid pass");
+          })
+          .catch((error) => {
+            if (error.code === 'auth/wrong-password') {
+              return new Error("An accound already exists with that email")
+            }
+            if (error.code === 'auth/user-not-found') {
+              return true;
+            }
+            if (error.code === 'auth/too-many-requests')  {
+              return new Error("Please wait a few seconds before your next attempt")
+            }
+            return error
+          })
+      }
 
     addPassword(password) {
         if(this.newProfile != null) {
