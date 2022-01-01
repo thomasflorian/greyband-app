@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Button, KeyboardAvoidingView, TextInput, Alert } from 'react-native'
 import { useTheme } from '@react-navigation/native';
 import { _ScrollView } from 'react-native';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Toast from 'react-native-toast-message';
 import { db, auth } from '../../src/database/firebase-index';
 import ProfileFactory from '../../src/users/ProfileFactory';
 import ErrorToken from '../../src/users/ErrorToken';
@@ -50,7 +50,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
         let addEmailToken = profileFactory.addEmail(email)
         console.log("SAC:3")
         if(!addEmailToken.passed){
-            Toast.show({type: "error", position: "bottom", text1: addEmailToken.message})
+            Toast.show({type: "error", position: "bottom", text1: "addEmailToken.message"})
             console.log("SAC:emailtoastShow")
         } else {
             console.log("SAC:noToast")
