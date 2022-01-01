@@ -1,5 +1,6 @@
 import Profile from "./Profile";
 import { auth } from "../database/firebase-index";
+import ErrorToken from "./ErrorToken";
 
 const { db } = require("../database/firebase-index");
 
@@ -12,104 +13,76 @@ export default class ProfileFactory{
         this.newProfile = new Profile()
     }
 
-    addEmail = async (email) => {
+    addEmail = (unformattedEmail) => {
+        let email = unformattedEmail.toLowerCase()
         console.log("AE:1")
         if(this.newProfile != null) {
-            try {
-                this._checkEmailViability(email)
-                console.log("AE:pass")
-                return true
-            } catch (error) {
-                console.log("AE:fail")
-                throw error
-                
-            }
+            return this._checkEmailViability(email);
         } else {
-            throw new Error('Must create profile before adding email to it');
+            return new ErrorToken('Must create profile before adding email to it');
         }
         
     }
 
     _checkEmailViability(email) {
-        try {
-            console.log("CEV:1")
-            this._checkEmailFormat(email)
-            console.log("CEV:2")
-            this._checkEmailAvailability(email);
-            console.log("CEV:3")
-            return true
-        } catch(error) {
-            throw error
+        let emailFormatToken = this._checkEmailFormat(email)
+        let emailAvailabilityToken = this._checkEmailAvailability(email)
+        if(emailFormatToken.passed){
+            return emailAvailabilityToken
         }
-        return false
-        
-
-
-        
-
+        return emailFormatToken
     }
 
     _checkEmailFormat(email){
         let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (email.match(mailFormat)) {
-            return true;
+            return new ErrorToken();
         }
-        throw new Error("Please input a valid email");
+        return new ErrorToken("Please input a valid email");
     }
 
     async _checkEmailAvailability(email) {
-        await auth.signInWithEmailAndPassword(email, "fail")
+        const emailToken = await this._getEmailAvailabilityFromServer(email);
+        return emailToken;
+    }
+
+
+    _getEmailAvailabilityFromServer(email) {
+        return auth.signInWithEmailAndPassword(email, "fail")
           .then((response) => {
-            throw new Error("Somehow Logged in with invalid pass");
+            throw new Error("CRITICAL ERROR: LOGGED IN WHEN GETTING EMAIL AVAILABILITY FROM SERVER")
           })
           .catch((error) => {
             if (error.code === 'auth/wrong-password') {
-              throw new Error("An accound already exists with that email")
+              return new ErrorToken("An accound already exists with that email")
             }
             if (error.code === 'auth/user-not-found') {
-              return true;
+              return new ErrorToken();
             }
             if (error.code === 'auth/too-many-requests')  {
-              throw new Error("Please wait a few seconds before your next attempt")
+              return new ErrorToken("Please wait a few seconds before your next attempt")
             }
-            throw error
+            return new ErrorToken("Critical Error: " + error.code)
           })
-      }
+    }
 
-    addPassword(password) {
+    _addPassword(password) {
         if(this.newProfile != null) {
-            this.newProfile.setPassword(password);
+            return this.newProfile.setPassword(password);
         } else {
-            throw new Error('Must create profile before adding password to it');
+            return new ErrorToken('Must create profile before adding password to it');
         }
     }
 
-    addName(firstname, lastname) {
+    _addName(firstname, lastname) {
         if(this.newProfile != null) {
             this.newProfile.setFirstname(firstname);
             this.newProfile.setLastname(lastname);
+            return new ErrorToken()
         } else {
-            throw new Error('Must create profile before adding name to it');
+            return new ErrorToken('Must create profile before adding name to it');
         }
         
-    }
-
-    _validateEmail(email) {
-        const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (email.match(mailFormat)) {
-            return true;
-        }
-        return false;
-    }
-
-    getNewProfile(){
-        if(this.newProfile != null) {
-            const newProfile = this.newProfile;
-            this.newProfile = null;
-            return newProfile;
-        } else {
-            throw new Error('Must create profile before getting it');
-        }
     }
 
 
