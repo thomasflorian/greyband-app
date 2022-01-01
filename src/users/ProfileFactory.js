@@ -30,11 +30,11 @@ export default class ProfileFactory{
         console.log("CEV:1")
         let emailFormatToken = this._checkEmailFormat(email)
         console.log("CEV:2")
-        let emailAvailabilityToken = this._checkEmailAvailability(email)
-        console.log("CEV:3")
         if(emailFormatToken.passed){
-            return emailAvailabilityToken
+            console.log("CEV:passed")
+            return this._checkEmailAvailability(email)
         }
+        console.log("CEV:failed")
         return emailFormatToken
     }
 
