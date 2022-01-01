@@ -5,6 +5,7 @@ import { _ScrollView } from 'react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { db, auth } from '../../src/database/firebase-index';
 import ProfileFactory from '../../src/users/ProfileFactory';
+import ErrorToken from '../../src/users/ErrorToken';
 
 
 const WIDTH = Dimensions.get('window').width * .85
@@ -46,15 +47,16 @@ const CreateAccountScreen = ( {route, navigation }) => {
         console.log("SAC:1")
         profileFactory.startProfileCreation();
         console.log("SAC:2")
-        try {
-            profileFactory.addEmail(email);
-            console.log("SAC:3")
-            profileFactory.addPassword(password);
-            console.log("SAC:4")
-            return true;
-        } catch (error) {
-            Toast.show({type: "error", position: "bottom", text1: error.message})
+        let addEmailToken = profileFactory.addEmail(email)
+        if(!addEmailToken.passed){
+            Toast.show({type: "error", position: "bottom", text1: addEmailToken.message})
+        } else {
+            let addPassToken = profileFactory.addPassword(password)
+            if(!addPassToken.passed){
+                Toast.show({type: "error", position: "bottom", text1: addPassToken.message})
+            }
         }
+        return true;
         
     }
  
