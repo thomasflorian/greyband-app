@@ -48,12 +48,18 @@ const CreateAccountScreen = ( {route, navigation }) => {
         profileFactory.startProfileCreation();
         console.log("SAC:2")
         let addEmailToken = profileFactory.addEmail(email)
+        console.log("SAC:3")
         if(!addEmailToken.passed){
             Toast.show({type: "error", position: "bottom", text1: addEmailToken.message})
+            console.log("SAC:emailtoastShow")
         } else {
+            console.log("SAC:noToast")
             let addPassToken = profileFactory.addPassword(password)
+            console.log("SAC:passTokenSet")
             if(!addPassToken.passed){
+                console.log("SAC:passError")
                 Toast.show({type: "error", position: "bottom", text1: addPassToken.message})
+                console.log("SAC:passToastShow")
             }
         }
         return true;
