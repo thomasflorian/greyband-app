@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Button, KeyboardAvoidingView, TextInput, Alert } from 'react-native'
 import { useTheme } from '@react-navigation/native';
 import { _ScrollView } from 'react-native';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { db, auth } from '../../src/database/firebase-index';
 import ProfileFactory from '../../src/users/ProfileFactory';
 
@@ -19,41 +20,40 @@ const CreateAccountScreen = ( {route, navigation }) => {
     // Get theme variables
     const theme = useTheme()
 
-    const invalidEmailAlert = () =>
-    Alert.alert(
-      "Invalid Email",
-      "Please input a valid email",
-      [
-        { text: "OK", onPress: () => console.log("OK Pressed") }
-      ]
-    );
+    // const invalidEmailAlert = () =>
+    // Alert.alert(
+    //   "Invalid Email",
+    //   "Please input a valid email",
+    //   [
+    //     { text: "OK", onPress: () => console.log("OK Pressed") }
+    //   ]
+    // );
 
-    const validatePass = (password) => {
-        return password.length >= 6;
-    }
+    // const validatePass = (password) => {
+    //     return password.length >= 6;
+    // }
 
-    const invalidPassAlert = () =>
-    Alert.alert(
-      "Invalid Password",
-      "Password must be over 6 characters",
-      [
-        { text: "OK", onPress: () => console.log("OK Pressed") }
-      ]
-    );
+    // const invalidPassAlert = () =>
+    // Alert.alert(
+    //   "Invalid Password",
+    //   "Password must be over 6 characters",
+    //   [
+    //     { text: "OK", onPress: () => console.log("OK Pressed") }
+    //   ]
+    // );
 
     const startAccountCreation = () => {
-        console.log("A")
+        console.log("SAC:1")
         profileFactory.startProfileCreation();
-        console.log("B")
+        console.log("SAC:2")
         try {
             profileFactory.addEmail(email);
-            console.log("C")
+            console.log("SAC:3")
             profileFactory.addPassword(password);
-            console.log("D")
+            console.log("SAC:4")
             return true;
         } catch (error) {
-            Alert.alert(error)
-            return false;
+            Toast.show({type: "error", position: "bottom", text1: error.message})
         }
         
     }

@@ -12,42 +12,17 @@ export default class ProfileFactory{
         this.newProfile = new Profile()
     }
 
-
-    addUsername(username) {
-        if(this.newProfile != null) {
-            if(isViableUsername(username)){
-                this.newProfile.setUsername(username);
-            } else {
-                throw "An account already exists with this username"
-            }
-        } else {
-            throw new Error('Must create profile before adding username to it');
-        }
-        
-    }
-
-    _isViableUsername(username){
-        var usersRef = db.collection("users");
-        const usernameQuery = usersRef.where("username", "==", username);
-        usernameQuery.get().then((querySnapshot) => {
-            if(querySnapshot.exists) {
-                return false
-            } else {
-                return true
-            }
-        }).catch((error) => {
-            console.log("Error getting username in usernameExists check: ", error);
-            return false
-        })
-    }
-
     addEmail = async (email) => {
-        console.log("1")
+        console.log("AE:1")
         if(this.newProfile != null) {
             try {
                 this._checkEmailViability(email)
+                console.log("AE:pass")
+                return true
             } catch (error) {
+                console.log("AE:fail")
                 throw error
+                
             }
         } else {
             throw new Error('Must create profile before adding email to it');
@@ -57,20 +32,26 @@ export default class ProfileFactory{
 
     _checkEmailViability(email) {
         try {
-            this._checkEmailFormat(email);
+            console.log("CEV:1")
+            this._checkEmailFormat(email)
+            console.log("CEV:2")
             this._checkEmailAvailability(email);
+            console.log("CEV:3")
+            return true
         } catch(error) {
             throw error
         }
+        return false
+        
 
-        console.log("t");
+
         
 
     }
 
     _checkEmailFormat(email){
         let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (emailString.match(mailFormat)) {
+        if (email.match(mailFormat)) {
             return true;
         }
         throw new Error("Please input a valid email");
@@ -83,15 +64,15 @@ export default class ProfileFactory{
           })
           .catch((error) => {
             if (error.code === 'auth/wrong-password') {
-              return new Error("An accound already exists with that email")
+              throw new Error("An accound already exists with that email")
             }
             if (error.code === 'auth/user-not-found') {
               return true;
             }
             if (error.code === 'auth/too-many-requests')  {
-              return new Error("Please wait a few seconds before your next attempt")
+              throw new Error("Please wait a few seconds before your next attempt")
             }
-            return error
+            throw error
           })
       }
 
@@ -113,9 +94,9 @@ export default class ProfileFactory{
         
     }
 
-    _validateEmail(emailString) {
+    _validateEmail(email) {
         const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (emailString.match(mailFormat)) {
+        if (email.match(mailFormat)) {
             return true;
         }
         return false;
