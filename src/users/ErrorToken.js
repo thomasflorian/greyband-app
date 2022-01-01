@@ -1,4 +1,4 @@
-class ErrorToken {
+export default class ErrorToken {
     constructor(message){
         this.passed = false
         this.message = message
