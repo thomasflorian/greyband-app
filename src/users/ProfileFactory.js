@@ -17,16 +17,21 @@ export default class ProfileFactory{
         let email = unformattedEmail.toLowerCase()
         console.log("AE:1")
         if(this.newProfile != null) {
+            console.log("AE:isPorfile")
             return this._checkEmailViability(email);
         } else {
+            console.log("AE:noProfile")
             return new ErrorToken('Must create profile before adding email to it');
         }
         
     }
 
     _checkEmailViability(email) {
+        console.log("CEV:1")
         let emailFormatToken = this._checkEmailFormat(email)
+        console.log("CEV:2")
         let emailAvailabilityToken = this._checkEmailAvailability(email)
+        console.log("CEV:3")
         if(emailFormatToken.passed){
             return emailAvailabilityToken
         }
@@ -42,7 +47,9 @@ export default class ProfileFactory{
     }
 
     async _checkEmailAvailability(email) {
+        console.log("CEA:1")
         const emailToken = await this._getEmailAvailabilityFromServer(email);
+        console.log("CEA:2")
         return emailToken;
     }
 
