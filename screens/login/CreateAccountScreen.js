@@ -43,14 +43,15 @@ const CreateAccountScreen = ( {route, navigation }) => {
     //   ]
     // );
 
-    const startAccountCreation = () => {
+    const startAccountCreation = async () => {
         console.log("SAC:1")
         profileFactory.startProfileCreation();
         console.log("SAC:2")
-        let addEmailToken = profileFactory.addEmail(email)
+        let addEmailToken = await profileFactory.addEmail(email)
         console.log("SAC:3")
+        console.log(addEmailToken.passed.toString())
         if(!addEmailToken.passed){
-            Toast.show({type: "error", position: "bottom", text1: "addEmailToken.message"})
+            Toast.show({type: "error", position: "bottom", text1: addEmailToken.message})
             console.log("SAC:emailtoastShow")
         } else {
             console.log("SAC:noToast")

@@ -17,7 +17,7 @@ export default class ProfileFactory{
         let email = unformattedEmail.toLowerCase()
         console.log("AE:1")
         if(this.newProfile != null) {
-            console.log("AE:isPorfile")
+            console.log("AE:isProfile")
             return this._checkEmailViability(email);
         } else {
             console.log("AE:noProfile")
@@ -26,13 +26,13 @@ export default class ProfileFactory{
         
     }
 
-    _checkEmailViability(email) {
+    async _checkEmailViability(email) {
         console.log("CEV:1")
         let emailFormatToken = this._checkEmailFormat(email)
         console.log("CEV:2")
         if(emailFormatToken.passed){
             console.log("CEV:passed")
-            return this._checkEmailAvailability(email)
+            return await this._checkEmailAvailability(email)
         }
         console.log("CEV:failed")
         return emailFormatToken
@@ -48,7 +48,8 @@ export default class ProfileFactory{
 
     async _checkEmailAvailability(email) {
         console.log("CEA:1")
-        const emailToken = await this._getEmailAvailabilityFromServer(email);
+        let emailToken = await this._getEmailAvailabilityFromServer(email);
+        console.log("moved on")
         console.log("CEA:2")
         return emailToken;
     }
@@ -60,6 +61,7 @@ export default class ProfileFactory{
             throw new Error("CRITICAL ERROR: LOGGED IN WHEN GETTING EMAIL AVAILABILITY FROM SERVER")
           })
           .catch((error) => {
+              console.log("got response from server");
             if (error.code === 'auth/wrong-password') {
               return new ErrorToken("An accound already exists with that email")
             }

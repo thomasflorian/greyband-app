@@ -17,6 +17,8 @@ import { auth, useAuthState } from './src/database/firebase-index';
 import IntroScreen from './screens/login/IntroScreen';
 import CreateAccountScreen from './screens/login/CreateAccountScreen';
 import LegalScreen from './screens/login/LegalScreen';
+import Toast, {ErrorToast} from 'react-native-toast-message';
+import {Icon} from 'react-native-elements';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,6 +50,23 @@ const theme = {
     regular: "Montserrat_500Medium",
   }
 };
+
+const toastConfig = {
+  error: (props) => (
+    <ErrorToast
+      {...props}
+      style={{ borderLeftColor: '#DD0022', backgroundColor: '#DD0022', paddingTop: 0, alignItems: "center", paddingHorizontal: 20 }}
+      text1Style={{
+        fontSize: 15,
+        fontFamily: theme.font.bold,
+        color: "white",
+      }}
+      text2Style={{color:"white", fontFamily: theme.font.light}}
+      text1NumberOfLines={2}
+      renderLeadingIcon={() => (<Icon name='error-outline' type="materialicons" color={"white"} size={30} />)}
+    />
+  ),
+}
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
@@ -91,6 +110,7 @@ const theme = {
               <LoggedOutStack.Screen name="CreateAccount" component={CreateAccountScreen} />
               <LoggedOutStack.Screen name="Legal" component={LegalScreen} />
             </LoggedOutStack.Navigator>
+            <Toast config={toastConfig}/>
             </>
         ) }
         
