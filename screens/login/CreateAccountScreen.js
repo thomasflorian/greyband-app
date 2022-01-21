@@ -62,10 +62,10 @@ const CreateAccountScreen = ( {route, navigation }) => {
                 Toast.show({type: "error", position: "bottom", text1: addPassToken.message})
                 console.log("SAC:passToastShow")
             } else {
-
+                return true;
             }
         }
-        return true;
+        return false;
         
     }
  
