@@ -75,12 +75,19 @@ export default class ProfileFactory{
           })
     }
 
-    _addPassword(password) {
+    addPassword(password) {
         if(this.newProfile != null) {
-            return this.newProfile.setPassword(password);
+            return this._checkPasswordViability(password);
         } else {
             return new ErrorToken('Must create profile before adding password to it');
         }
+    }
+
+    _checkPasswordViability(password) {
+        if(password.length < 6) {
+            return new ErrorToken('Password must be longer than 6 characters')
+        }
+        return new ErrorToken()
     }
 
     _addName(firstname, lastname) {
