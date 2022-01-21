@@ -61,6 +61,8 @@ const CreateAccountScreen = ( {route, navigation }) => {
                 console.log("SAC:passError")
                 Toast.show({type: "error", position: "bottom", text1: addPassToken.message})
                 console.log("SAC:passToastShow")
+            } else {
+
             }
         }
         return true;
@@ -100,11 +102,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
                     <View style={styles(theme).button_container }>
                         <Button 
                             onPress={() => {
-                                try {
-                                    startAccountCreation()
-                                } catch(error) {
-                                    
-                                }
+                                startAccountCreation()
                             }}
                             color={theme.colors.background}
                             title="Continue"
