@@ -102,7 +102,9 @@ const CreateAccountScreen = ( {route, navigation }) => {
                     <View style={styles(theme).button_container }>
                         <Button 
                             onPress={() => {
-                                startAccountCreation()
+                                if(startAccountCreation()){
+                                    navigation.navigate('Name')
+                                }
                             }}
                             color={theme.colors.background}
                             title="Continue"
