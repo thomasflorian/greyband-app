@@ -52,7 +52,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
             console.log("SAC:emailtoastShow")
         } else {
             console.log("SAC:noToast")
-            let addPassToken = profileFactory.addPassword(password)
+            let addPassToken = await profileFactory.addPassword(password)
             console.log("SAC:passTokenSet")
             if(!addPassToken.passed){
                 console.log("SAC:passError")
@@ -62,6 +62,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
                 return true;
             }
         }
+        console.log("failed")
         return false;
         
     }
@@ -98,9 +99,11 @@ const CreateAccountScreen = ( {route, navigation }) => {
                 <View style={styles(theme).bottom_of_screen}>
                     <View style={styles(theme).button_container }>
                         <Button 
-                            onPress={() => {
-                                if(startAccountCreation()){
-                                    navigation.navigate('Name', {profileFactory: {profileFactory}})
+                            onPress={async () => {
+                                let didAccountCreate = await startAccountCreation()
+                                if(didAccountCreate){
+                                    console.log("navigating to name screen")
+                                    navigation.navigate('Name', {profileFactory: profileFactory})
                                 }
                             }}
                             color={theme.colors.background}
