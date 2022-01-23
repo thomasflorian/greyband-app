@@ -60,7 +60,7 @@ const NameScreen = ( {route, navigation }) => {
                             title="Continue"
                         />
                     </View>
-                    <TouchableOpacity onPress={() => {navigation.navigate('CreateAccount')}}>
+                    <TouchableOpacity onPress={() => {navigation.navigate('CreateAccount', {profileFactory: {profileFactory}})}}>
                         <Text style={styles(theme).cancel_text}>Back</Text>
                     </TouchableOpacity>
                 </View>

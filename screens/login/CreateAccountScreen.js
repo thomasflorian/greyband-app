@@ -103,7 +103,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
                         <Button 
                             onPress={() => {
                                 if(startAccountCreation()){
-                                    navigation.navigate('Name')
+                                    navigation.navigate('Name', {profileFactory: {profileFactory}})
                                 }
                             }}
                             color={theme.colors.background}
