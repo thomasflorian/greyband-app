@@ -81,6 +81,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
                         placeholderTextColor={theme.colors.text}
                         value = {email}
                         keyboardType='email-address'
+                        autoCorrect={false}
                         onChangeText={ text => setEmail(text) }
                         style={styles(theme).input}
                     />
@@ -89,6 +90,7 @@ const CreateAccountScreen = ( {route, navigation }) => {
                         placeholder="Password"
                         placeholderTextColor={theme.colors.text}
                         value = {password}
+                        autoCorrect={false}
                         secureTextEntry
                         onChangeText={ text => setPassword(text)}
                         style={styles(theme).input}
