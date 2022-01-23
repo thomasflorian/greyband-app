@@ -3,9 +3,6 @@ import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, But
 import { useTheme } from '@react-navigation/native';
 import { _ScrollView } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { db, auth } from '../../src/database/firebase-index';
-import ProfileFactory from '../../src/users/ProfileFactory';
-import ErrorToken from '../../src/users/ErrorToken';
 
 
 const WIDTH = Dimensions.get('window').width * .85
