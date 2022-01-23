@@ -1,4 +1,5 @@
-export default class ErrorToken {
+export default class ErrorToken { // TODO: this class should be reformatted as a struct
+
     
 
     constructor(message="NO ERRORS"){
