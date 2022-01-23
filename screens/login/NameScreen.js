@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Button, KeyboardAvoidingView, TextInput, Alert } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, Button, KeyboardAvoidingView, TextInput } from 'react-native'
 import { useTheme } from '@react-navigation/native';
 import { _ScrollView } from 'react-native';
-import Toast from 'react-native-toast-message';
 
 
 const WIDTH = Dimensions.get('window').width * .85
@@ -12,8 +11,9 @@ const WIDTH = Dimensions.get('window').width * .85
 
 const NameScreen = ( {route, navigation }) => {
     const { profileFactory } = route.params;
-    const [firstName, setFirstName] = new State('');
-    const [lastName, setLastName] = new State('');
+    const [firstName, setFirstName] = new useState('');
+    const [lastName, setLastName] = new useState('');
+    State
 
     // Get theme variables
     const theme = useTheme()
