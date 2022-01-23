@@ -19,7 +19,7 @@ import CreateAccountScreen from './screens/login/CreateAccountScreen';
 import LegalScreen from './screens/login/LegalScreen';
 import Toast, {ErrorToast} from 'react-native-toast-message';
 import {Icon} from 'react-native-elements';
-import BaseInfo from './screens/login/BaseInfo';
+import NameScreen from './screens/login/NameScreen';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -110,7 +110,7 @@ const toastConfig = {
               <LoggedOutStack.Screen name="Login" component={LoginScreen} />
               <LoggedOutStack.Screen name="CreateAccount" component={CreateAccountScreen} />
               <LoggedOutStack.Screen name="Legal" component={LegalScreen} />
-              <LoggedOutStack.Screen name="Base" component={BaseInfo} />
+              <LoggedOutStack.Screen name="Name" component={NameScreen} />
             </LoggedOutStack.Navigator>
             <Toast config={toastConfig}/>
             </>

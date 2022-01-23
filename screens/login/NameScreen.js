@@ -10,7 +10,7 @@ const WIDTH = Dimensions.get('window').width * .85
 
 
 
-const BaseInfo = ( {route, navigation }) => {
+const NameScreen = ( {route, navigation }) => {
     const { profileFactory } = route.params;
     const [firstName, setFirstName] = new State('');
     const [lastName, setLastName] = new State('');
@@ -73,7 +73,7 @@ const BaseInfo = ( {route, navigation }) => {
     
 }
 
-export default BaseInfo
+export default NameScreen
 
 
 
