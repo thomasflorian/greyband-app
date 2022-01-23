@@ -13,7 +13,6 @@ const NameScreen = ( {route, navigation }) => {
     const { profileFactory } = route.params;
     const [firstName, setFirstName] = new useState('');
     const [lastName, setLastName] = new useState('');
-    State
 
     // Get theme variables
     const theme = useTheme()
