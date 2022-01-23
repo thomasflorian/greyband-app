@@ -30,17 +30,17 @@ const NameScreen = ( {route, navigation }) => {
                     <TextInput 
                         placeholder="First name"
                         placeholderTextColor={theme.colors.text}
-                        value = {email}
-                        keyboardType='email-address'
+                        value = {firstName}
+                        autoCorrect={false}
                         onChangeText={ text => setFirstName(text) }
                         style={styles(theme).input}
                     />
                     <View style={styles(theme).input_buffer} />
                     <TextInput 
                         placeholder="Last name"
+                        autoCorrect={false}
                         placeholderTextColor={theme.colors.text}
-                        value = {password}
-                        secureTextEntry
+                        value = {lastName}
                         onChangeText={ text => setLastName(text)}
                         style={styles(theme).input}
                         
@@ -51,15 +51,13 @@ const NameScreen = ( {route, navigation }) => {
                     <View style={styles(theme).button_container }>
                         <Button 
                             onPress={() => {
-                                if(startAccountCreation()){
-                                    
-                                }
+                                
                             }}
                             color={theme.colors.background}
                             title="Continue"
                         />
                     </View>
-                    <TouchableOpacity onPress={() => {navigation.navigate('CreateAccount', {profileFactory: {profileFactory}})}}>
+                    <TouchableOpacity onPress={() => {navigation.navigate('CreateAccount', {profileFactory: profileFactory})}}>
                         <Text style={styles(theme).cancel_text}>Back</Text>
                     </TouchableOpacity>
                 </View>
