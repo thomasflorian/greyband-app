@@ -16,10 +16,10 @@ export default function CreatePartyScreen({ navigation }) {
     return (
         <View style={styles(theme).container}>
             <View style={styles(theme).box}>
-                <View style={{ width: "100%", flex: 3 }}>
-                    <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginVertical: 10 }}>
+                <View style={{ width: "100%" }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: theme.spacing.smallplus, marginVertical: theme.spacing.small }}>
                         <TouchableOpacity style={{ flex: 1 }} onPress={() => navigation.navigate("Party")}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
-                        <Text style={{ color: theme.colors.text, fontSize: 24, fontFamily: theme.font.light, flex: 4, textAlign: "center" }}>Create a Party</Text>
+                        <Text style={{ color: theme.colors.text, fontSize: theme.fontsize.medium, fontFamily: theme.font.light, flex: 4, textAlign: "center" }}>Create a Party</Text>
                         <View style={{ flex: 1 }}></View>
                     </View>
                 </View>
@@ -58,25 +58,25 @@ const styles = theme => StyleSheet.create({
         flex: 1,
         borderColor: theme.colors.border,
         borderWidth: 1,
-        marginVertical: 10,
-        borderRadius: 10,
+        marginVertical: theme.spacing.small,
+        borderRadius: theme.spacing.small,
     },
     caption: {
         color: theme.colors.text,
         fontFamily: theme.font.bold,
-        fontSize: 20,
+        fontSize: theme.fontsize.small,
         marginLeft: "5%"
     },
     textInput: {
         fontFamily: theme.font.regular, 
         color: theme.colors.text, 
-        paddingHorizontal: 10
+        paddingHorizontal: theme.spacing.small,
     },
     boxText: {
         textAlign: "center",
         fontFamily: theme.font.light, 
         color: theme.colors.text, 
-        fontSize: 20,
+        fontSize: theme.fontsize.small,
     }
 });
 

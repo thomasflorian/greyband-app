@@ -79,7 +79,7 @@ const Stack = createNativeStackNavigator();
 // Styles
 const styles = theme => (StyleSheet.create({
     container: {
-        paddingTop: 30,
+        paddingTop: theme.spacing.medium,
         width: "100%",
         flex: 1,
         backgroundColor: theme.colors.background,
@@ -87,33 +87,33 @@ const styles = theme => (StyleSheet.create({
     },
     blowtitle: {
         fontFamily: theme.font.light,
-        fontSize: 26,
+        fontSize: theme.fontsize.medium,
         color: theme.colors.text,
         textAlign: "center"
     },
     blowbox: {
-        paddingHorizontal: 75,
-        paddingVertical: 30,
-        margin: 30,
+        paddingHorizontal: theme.spacing.xlarge,
+        paddingVertical: theme.spacing.medium,
+        margin: theme.spacing.medium,
         borderColor: theme.colors.border,
         borderWidth: 1,
-        borderRadius: 15,
+        borderRadius: theme.spacing.smallplus,
     },
     blowtext: {
         fontFamily: theme.font.light,
-        fontSize: 32,
+        fontSize: theme.fontsize.large,
         color: theme.colors.text,
     },
     targetState: {
         fontFamily: theme.font.light,
-        fontSize: 20,
+        fontSize: theme.fontsize.small,
         color: theme.colors.text,
     },
     targetBac: {
         position: "absolute",
         bottom: 8,
         fontFamily: theme.font.light,
-        fontSize: 36,
+        fontSize: theme.fontsize.xlarge,
         color: theme.colors.text,
     },
     targetTextContainer: {
@@ -122,7 +122,7 @@ const styles = theme => (StyleSheet.create({
         position: "relative",
         top: -10,
         alignItems: "center",
-        paddingTop: 10,
+        paddingTop: theme.spacing.small,
         margin: 0,
         flex: 1
     },

@@ -30,7 +30,7 @@ export default function ProfileScreen({ navigation }) {
                     </View>
                     <View style={{ ...styles(theme).row, flex: 5, justifyContent: "flex-start"}}>
                         <Image style={styles(theme).picture} source={{ uri: userdata.profile.picture }}></Image>
-                        <View style={{marginLeft: 10}}>
+                        <View style={{marginLeft: theme.spacing.small}}>
                             <View style={{flexDirection:"row"}}>
                                 {userdata.display.firstname && <Text style={{color: theme.colors.primary}}>{userdata.profile.firstname} </Text>}
                                 {userdata.display.lastname && <Text style={{color: theme.colors.primary}}>{userdata.profile.lastname}</Text>}
@@ -65,18 +65,18 @@ const styles = theme => StyleSheet.create({
         width: "90%",
         borderColor: theme.colors.border,
         borderWidth: 1,
-        marginVertical: 10,
-        borderRadius: 10,
+        marginVertical: theme.spacing.small,
+        borderRadius: theme.spacing.small,
         flex: 1,
     },
     username: {
         fontFamily: theme.font.bold,
         color: theme.colors.text,
-        fontSize: 26
+        fontSize: theme.fontsize.medium,
     },
     row: {
-        marginVertical: 10,
-        marginHorizontal: 15,
+        marginVertical: theme.spacing.small,
+        marginHorizontal: theme.spacing.smallplus,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "flex-start",
@@ -90,13 +90,13 @@ const styles = theme => StyleSheet.create({
     edittext: {
         color: theme.colors.text,
         fontFamily: theme.font.light,
-        marginHorizontal: 4
+        marginHorizontal: theme.spacing.xsmall
     },
     picture: {
         height: "90%",
         width: "40%",
         maxWidth: 200,
-        borderRadius: 15,
+        borderRadius: theme.spacing.smallplus,
     },
 });
 

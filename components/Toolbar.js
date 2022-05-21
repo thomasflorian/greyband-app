@@ -36,8 +36,8 @@ const styles = theme => StyleSheet.create({
         justifyContent: 'space-between',
         borderTopColor: theme.colors.border,
         borderTopWidth: 1,
-        paddingHorizontal: 30,
-        paddingTop: 20,
+        paddingHorizontal: theme.spacing.mediumplus,
+        paddingVertical: theme.spacing.smallplus,
     }
 
 });

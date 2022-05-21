@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import Toast, { ErrorToast, BaseToast } from 'react-native-toast-message';
+import { StyleSheet, SafeAreaView, useWindowDimensions } from 'react-native';
+import Toast, { ErrorToast } from 'react-native-toast-message';
 import { useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -27,6 +27,8 @@ export default function App() {
 
   const [userdata, setUserdata] = useState(undefined);
   const Stack = createNativeStackNavigator();
+  // Get screen dimensions
+  const dims = useWindowDimensions();
 
   // Load Montserrat font
   let [fontsLoaded] = useFonts({
@@ -50,6 +52,22 @@ export default function App() {
       bold: "Montserrat_700Bold",
       light: "Montserrat_400Regular",
       regular: "Montserrat_500Medium",
+    },
+    fontsize: {
+      xlarge: dims.width > 365 ? 36: 26,
+      large: dims.width > 365 ? 32: 20,
+      medium: dims.width > 365 ? 26: 16,
+      small: dims.width > 365 ? 20: 12,
+      xsmall: dims.width > 365 ? 16: 10,
+    },
+    spacing: {
+      xlarge: dims.width > 365 ? 75: 30,
+      large: dims.width > 365 ? 50: 20,
+      mediumplus: dims.width > 365 ? 35: 15,
+      medium: dims.width > 365 ? 25: 10,
+      smallplus: dims.width > 365 ? 20: 8,
+      small: dims.width > 365 ? 10: 5,
+      xsmall: dims.width > 365 ? 5: 2,
     }
   };
 

@@ -115,7 +115,7 @@ export default function SearchScreen({ navigation }) {
 const styles = theme => StyleSheet.create({
     container: {
         width: "100%",
-        paddingTop: 30,
+        paddingTop: theme.spacing.medium,
         flex: 1,
         backgroundColor: theme.colors.background,
         alignItems: 'center',
@@ -141,10 +141,11 @@ const styles = theme => StyleSheet.create({
         borderRightWidth: 2,
         borderColor: theme.colors.border,
         borderRadius: 10,
+        marginBottom: theme.spacing.small,
         // boxShadow: "0px 2px 4px #D64F27",
     },
     icon: {
-        paddingHorizontal: 6
+        paddingHorizontal: theme.spacing.xsmall
     },
     usercontainer: {
         width: "100%",
@@ -152,7 +153,7 @@ const styles = theme => StyleSheet.create({
     },
     user: {
         width: "90%",
-        marginVertical: 10,
+        marginVertical: theme.spacing.small,
         borderWidth: 1,
         borderColor: theme.colors.border,
         borderRadius: 10,
@@ -162,14 +163,14 @@ const styles = theme => StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         height: 100,
-        paddingVertical: 10,
+        paddingVertical: theme.spacing.small,
     },
     userimage: {
         height: "100%",
         width: 80,
         resizeMode: "cover",
-        marginHorizontal: 10,
-        borderRadius: 15,
+        marginHorizontal: theme.spacing.small,
+        borderRadius: theme.spacing.smallplus,
     },
     username: {
         margin: 1,
@@ -181,7 +182,7 @@ const styles = theme => StyleSheet.create({
         justifyContent: "center"
     },
     activebuttoncontainer: {
-        marginBottom: 15,
+        marginBottom: theme.spacing.smallplus,
     },
     activebuttonrow: {
         flexDirection: "row",
@@ -190,10 +191,10 @@ const styles = theme => StyleSheet.create({
     activebutton: {
         width: "40%",
         justifyContent: "center",
-        margin: 5,
-        padding: 5,
+        margin: theme.spacing.xsmall,
+        padding: theme.spacing.xsmall,
         borderColor: theme.colors.border,
-        borderRadius: 10,
+        borderRadius: theme.spacing.small,
         borderWidth: 1,
         // boxShadow: "0px 2px 8px #D64F27",
     },
@@ -204,8 +205,8 @@ const styles = theme => StyleSheet.create({
     },
     flatlist: {
         width: "100%",
-        marginTop: 5,
-        marginBottom: 10
+        marginTop: theme.spacing.xsmall,
+        marginBottom: theme.spacing.small,
     }
 });
 

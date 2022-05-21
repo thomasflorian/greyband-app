@@ -102,10 +102,10 @@ export default function EditProfileScreen({ navigation }) {
 
     const renderItem = ({ item: { label, value, display, key }, index }) => {
         return (
-            <View style={{ flexDirection: "row", width: "90%", height: 75, marginHorizontal: "5%" }}>
+            <View style={{ flexDirection: "row", width: "90%", marginHorizontal: "5%" }}>
                 <View style={{ flex: 3 }}>
                     <Text style={{ color: theme.colors.text, fontFamily: theme.font.regular }}>{label}</Text>
-                    <TextInput onFocus={() => flatlistRef.scrollToIndex({ index })} onChangeText={(newValue) => handleValueChange(newValue, key)} value={value} style={{ ...styles(theme).box, color: theme.colors.text, fontFamily: theme.font.light, paddingHorizontal: 10 }}></TextInput>
+                    <TextInput onFocus={() => flatlistRef.scrollToIndex({ index })} onChangeText={(newValue) => handleValueChange(newValue, key)} value={value} style={{ ...styles(theme).box, color: theme.colors.text, fontFamily: theme.font.light, padding: theme.spacing.small }}></TextInput>
                 </View>
                 <View style={{ flex: 1, maxWidth: 70, alignItems: "center" }}>
                     <Text style={{ color: theme.colors.text, fontFamily: theme.font.regular }}>{index == 0 ? "Display" : " "}</Text>
@@ -118,14 +118,14 @@ export default function EditProfileScreen({ navigation }) {
     return (
         <View style={styles(theme).container}>
             <View style={styles(theme).box}>
-                <View style={{ width: "100%", flex: 1 }}>
-                    <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginVertical: 10 }}>
+                <View style={{ width: "100%" }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: theme.spacing.smallplus, marginVertical: theme.spacing.small }}>
                         <TouchableOpacity style={{ flex: 1 }} onPress={() => {saveProfileChanges(); navigation.navigate("Profile");}}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
-                        <Text style={{ color: theme.colors.text, fontSize: 24, flex: 4, textAlign: "center", fontFamily: theme.font.light }}>Edit Profile</Text>
+                        <Text style={{ color: theme.colors.text, fontSize: theme.fontsize.medium, flex: 4, textAlign: "center", fontFamily: theme.font.light }}>Edit Profile</Text>
                         <View style={{ flex: 1 }}></View>
                     </View>
                 </View>
-                <View style={{ width: "100%", flex: 2, marginBottom: 20, alignItems: "center" }}>
+                <View style={{ width: "100%", flex: 2, marginBottom: theme.spacing.smallplus, alignItems: "center" }}>
                     <TouchableOpacity onPress={addImage} style={{ width: "30%", maxWidth: 150 }}>
                         {imageLoading ? <ActivityIndicator size={"large"} color={theme.colors.primary} /> : <Image style={styles(theme).picture} source={{ uri: image }} />}
                     </TouchableOpacity>
@@ -152,14 +152,14 @@ const styles = theme => StyleSheet.create({
         flex: 1,
         borderColor: theme.colors.border,
         borderWidth: 1,
-        marginVertical: 10,
-        borderRadius: 10,
+        marginVertical: theme.spacing.small,
+        borderRadius: theme.spacing.small,
     },
     picture: {
-        marginBottom: 10,
+        marginBottom: theme.spacing.small,
         width: "100%",
         height: "100%",
-        borderRadius: 10,
+        borderRadius: theme.spacing.small,
     }
 });
 

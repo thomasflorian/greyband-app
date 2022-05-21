@@ -41,7 +41,7 @@ export default function PartyScreen({ navigation }) {
 
 const styles = theme => StyleSheet.create({
     container: {
-        paddingTop: 30,
+        paddingTop: theme.spacing.mediumplus,
         width: "100%",
         flex: 1,
         backgroundColor: theme.colors.background,
@@ -71,18 +71,18 @@ const styles = theme => StyleSheet.create({
         // boxShadow: "0px 2px 4px #D64F27",
     },
     icon: {
-        paddingHorizontal: 6
+        paddingHorizontal: theme.spacing.xsmall
     },
     textcontainer: {
         flex: 1,
-        marginTop: 10,
+        marginTop: theme.spacing.small,
         width: "90%",
         alignItems: "flex-start"
     },
     text: {
-        paddingTop: 5,
+        paddingTop: theme.spacing.xsmall,
         color: theme.colors.text,
-        fontSize: 20,
+        fontSize: theme.fontsize.smallplus,
         fontFamily: theme.font.light
     },
     button: {
@@ -93,7 +93,7 @@ const styles = theme => StyleSheet.create({
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",
-        marginVertical: 20
+        marginVertical: theme.spacing.smallplus,
     }, 
     buttontext: {
         color: theme.colors.background,

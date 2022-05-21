@@ -27,13 +27,12 @@ export default function Menubar() {
 
 const styles = theme => StyleSheet.create({
     container: {
-        height: 50,
         width: '100%',
         top: 0,
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 10,
+        padding: theme.spacing.small,
         backgroundColor: theme.colors.background,
         borderBottomColor: theme.colors.border,
         borderBottomWidth: 1
@@ -41,6 +40,6 @@ const styles = theme => StyleSheet.create({
     text: {
         color: theme.colors.text,
         fontFamily: "Montserrat_400Regular",
-        fontSize: 22
+        fontSize: theme.fontsize.medium,
     }
 });
