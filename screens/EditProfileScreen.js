@@ -5,6 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 // Import Components
 import Toolbar from '../components/Toolbar';
 import { UserdataContext } from '../context/UserdataContext';
@@ -24,9 +25,10 @@ export default function EditProfileScreen({ navigation }) {
     // TODO: Handle all possible errors
     const addImage = async () => {
         const uid = auth.currentUser.uid;
-        let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, allowsEditing: true, aspect: [1, 1], quality: 0.1 });
+        let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, allowsEditing: true, aspect: [1, 1] });
         setImageLoading(true);
-        const response = await fetch(result.uri);
+        const compression = await ImageManipulator.manipulateAsync(result.uri, [{resize: {height: 250}}], {});
+        const response = await fetch(compression.uri);
         const blob = await response.blob();
         const reference = storage.ref().child(`profilepictures/${uid}.png`);
         await reference.put(blob);
@@ -35,7 +37,7 @@ export default function EditProfileScreen({ navigation }) {
         reference.getDownloadURL()
             .then(async (url) => {
                 await saveProfileChanges();
-                db.collection("users").doc(uid).set({profile: {picture: url}}, {merge:true}).then(() => {
+                db.collection("users").doc(uid).set({ profile: { picture: url } }, { merge: true }).then(() => {
                     setImage(url);
                     setImageLoading(false);
                 }).catch(error => Toast.show({ type: "error", position: "bottom", text1: "Network Connection Error!", text2: "Check your connection and try again." }));
@@ -120,7 +122,7 @@ export default function EditProfileScreen({ navigation }) {
             <View style={styles(theme).box}>
                 <View style={{ width: "100%" }}>
                     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: theme.spacing.smallplus, marginVertical: theme.spacing.small }}>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={() => {saveProfileChanges(); navigation.navigate("Profile");}}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 1 }} onPress={() => { saveProfileChanges(); navigation.navigate("Profile"); }}><Icon name='arrow-back-ios' color={theme.colors.primary} size={30} /></TouchableOpacity>
                         <Text style={{ color: theme.colors.text, fontSize: theme.fontsize.medium, flex: 4, textAlign: "center", fontFamily: theme.font.light }}>Edit Profile</Text>
                         <View style={{ flex: 1 }}></View>
                     </View>
